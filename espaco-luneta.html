@@ -1,0 +1,1953 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+<title>Espaço Luneta · Catálogo de Recursos</title>
+<meta name="description" content="Catálogo de jogos, livros e recursos terapêuticos do Espaço Luneta">
+<meta name="theme-color" content="#314B95">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Luneta">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23314B95'/%3E%3Ctext x='50' y='68' font-size='60' text-anchor='middle' fill='%23A3CDFA'%3EL%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#314B95;
+  --navy-dark:#25396f;
+  --navy-light:#4d63aa;
+  --blue:#A3CDFA;
+  --purple:#BBB0FE;
+  --pink:#FEC3F9;
+  --yellow:#EBFC9E;
+  --orange:#FDC8A0;
+  --bg:#F5F6FB;
+  --surface:#FFFFFF;
+  --text:#232946;
+  --text-soft:#6B7290;
+  --text-faint:#9BA0BC;
+  --border:#E7E9F5;
+  --danger:#E8607A;
+  --danger-bg:#FDEAEF;
+  --radius-sm:10px;
+  --radius:16px;
+  --radius-lg:24px;
+  --shadow:0 4px 18px rgba(49,75,149,0.08);
+  --shadow-lift:0 10px 30px rgba(49,75,149,0.16);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:'Poppins',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  overscroll-behavior-y:none;
+  padding-bottom:68px;
+  font-size:14px;
+}
+h1,h2,h3,h4{font-family:'Baloo 2',sans-serif;margin:0;}
+button{font-family:inherit;cursor:pointer;}
+input,select,textarea{font-family:inherit;}
+a{color:inherit;}
+::selection{background:var(--purple);color:var(--navy-dark);}
+
+.hidden{display:none !important;}
+
+/* ---------- Splash / Config / Name gate ---------- */
+.gate-screen{
+  min-height:100vh;
+  background:var(--navy);
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(255,255,255,0.08) 0 2px, transparent 3px),
+    radial-gradient(circle at 85% 12%, rgba(255,255,255,0.08) 0 2px, transparent 3px),
+    radial-gradient(circle at 78% 82%, rgba(255,255,255,0.08) 0 2px, transparent 3px),
+    radial-gradient(circle at 22% 88%, rgba(255,255,255,0.08) 0 2px, transparent 3px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:32px 20px;
+}
+.gate-card{
+  background:var(--surface);
+  border-radius:var(--radius-lg);
+  padding:36px 28px;
+  max-width:420px;
+  width:100%;
+  box-shadow:var(--shadow-lift);
+  text-align:center;
+}
+.gate-logo{margin:0 auto 18px;}
+.logo-badge{
+  background:var(--navy);
+  border-radius:20px;
+  padding:16px 18px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 18px;
+}
+.gate-eyebrow{
+  font-size:12.5px;
+  letter-spacing:.32em;
+  color:var(--text-soft);
+  font-weight:600;
+  text-transform:uppercase;
+}
+.gate-title{
+  font-size:38px;
+  font-weight:800;
+  color:var(--navy);
+  margin-top:2px;
+  letter-spacing:.01em;
+}
+.gate-sub{color:var(--text-soft);font-size:14px;margin:10px 0 22px;line-height:1.5;}
+.field{text-align:left;margin-bottom:12px;}
+.field label{display:block;font-size:12px;font-weight:600;color:var(--text-soft);margin-bottom:5px;}
+.field input, .field select, .field textarea{
+  width:100%;
+  padding:11px 13px;
+  border-radius:var(--radius-sm);
+  border:1.5px solid var(--border);
+  background:var(--bg);
+  font-size:14px;
+  color:var(--text);
+  outline:none;
+  transition:border-color .15s, background .15s;
+}
+.field input:focus, .field select:focus, .field textarea:focus{
+  border-color:var(--navy-light);
+  background:var(--surface);
+}
+.field textarea{resize:vertical;min-height:66px;}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  border:none;border-radius:var(--radius-sm);
+  padding:11px 18px;font-size:14px;font-weight:600;
+  transition:transform .1s, box-shadow .15s, opacity .15s;cursor:pointer;
+}
+.btn:active{transform:scale(.97);}
+.btn-primary{background:var(--navy);color:#fff;box-shadow:0 6px 16px rgba(49,75,149,.28);}
+.btn-primary:hover{background:var(--navy-dark);}
+.btn-block{width:100%;}
+.btn-ghost{background:transparent;color:var(--navy);border:1.5px solid var(--border);}
+.btn-ghost:hover{border-color:var(--navy-light);}
+.btn-soft{background:var(--bg);color:var(--navy);border:1.5px solid var(--border);}
+.btn-danger{background:var(--danger-bg);color:var(--danger);}
+.btn-sm{padding:7px 12px;font-size:12.5px;border-radius:9px;}
+.link-btn{background:none;border:none;color:var(--navy);font-size:12.5px;font-weight:600;text-decoration:underline;padding:4px;cursor:pointer;}
+.gate-foot{margin-top:14px;font-size:11.5px;color:var(--text-faint);line-height:1.5;}
+
+/* ---------- App shell ---------- */
+#app{display:none;min-height:100vh;}
+#app.active{display:block;}
+
+.topbar{
+  position:sticky;top:0;z-index:30;
+  background:var(--navy);
+  color:#fff;
+  padding:11px 16px 12px;
+  display:flex;align-items:center;justify-content:space-between;
+  box-shadow:0 4px 14px rgba(49,75,149,.22);
+}
+.topbar-brand{display:flex;align-items:center;gap:9px;}
+.topbar-title{display:flex;flex-direction:column;line-height:1;}
+.topbar-eyebrow{font-size:9px;letter-spacing:.28em;color:var(--blue);font-weight:600;text-transform:uppercase;}
+.topbar-luneta{font-family:'Baloo 2';font-weight:800;font-size:19px;color:#fff;letter-spacing:.01em;margin-top:1px;}
+.topbar-actions{display:flex;align-items:center;gap:6px;}
+.icon-btn{
+  background:rgba(255,255,255,0.14);border:none;color:#fff;
+  width:34px;height:34px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s;
+}
+.icon-btn:hover{background:rgba(255,255,255,0.24);}
+.icon-btn svg{width:17px;height:17px;}
+
+.view{padding:14px 14px 20px;max-width:920px;margin:0 auto;}
+.view-head{margin-bottom:14px;}
+.view-head h2{font-size:20px;color:var(--navy);letter-spacing:-.005em;}
+.view-head p{margin:2px 0 0;color:var(--text-soft);font-size:12.5px;}
+.view-head.compact{margin-bottom:10px;}
+.view-head.compact h2{font-size:18px;}
+
+/* Bottom nav */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:40;
+  background:var(--surface);
+  border-top:1px solid var(--border);
+  display:flex;
+  padding:4px 4px calc(4px + env(safe-area-inset-bottom));
+  box-shadow:0 -6px 20px rgba(49,75,149,.08);
+}
+.nav-btn{
+  flex:1;background:none;border:none;
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  padding:6px 2px 5px;border-radius:10px;color:var(--text-faint);
+  font-size:10px;font-weight:600;
+}
+.nav-btn svg{width:20px;height:20px;stroke:var(--text-faint);fill:none;stroke-width:1.9;transition:all .15s;}
+.nav-btn.active{color:var(--navy);}
+.nav-btn.active svg{stroke:var(--navy);}
+.nav-btn.active{background:var(--bg);}
+
+/* Cards / generic */
+.card{
+  background:var(--surface);
+  border-radius:var(--radius);
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+}
+.grid-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px;}
+.stat-card{
+  padding:14px 15px;border-radius:var(--radius);
+  display:flex;flex-direction:column;gap:4px;
+}
+.stat-card .num{font-family:'Baloo 2';font-size:26px;font-weight:800;line-height:1;}
+.stat-card .lbl{font-size:11.5px;font-weight:600;color:var(--text-soft);line-height:1.2;}
+.stat-navy{background:var(--navy);color:#fff;}
+.stat-navy .lbl{color:rgba(255,255,255,.75);}
+.stat-blue{background:var(--blue);color:var(--navy-dark);}
+.stat-purple{background:var(--purple);color:var(--navy-dark);}
+.stat-pink{background:var(--pink);color:var(--navy-dark);}
+.stat-yellow{background:var(--yellow);color:var(--navy-dark);}
+.stat-orange{background:var(--orange);color:var(--navy-dark);}
+
+.section-title{
+  font-size:12px;font-weight:700;color:var(--text-soft);
+  text-transform:uppercase;letter-spacing:.06em;
+  margin:18px 0 8px;
+}
+.chip-row{display:flex;flex-wrap:wrap;gap:7px;}
+.chip{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 12px;border-radius:999px;
+  font-size:12px;font-weight:600;
+  background:var(--bg);color:var(--navy);
+  border:1px solid var(--border);
+}
+.chip .count{
+  background:var(--navy);color:#fff;
+  border-radius:999px;padding:1px 7px;font-size:10.5px;
+}
+.chip-tipo-Livro{background:var(--pink);color:var(--navy-dark);border-color:transparent;}
+.chip-tipo-Jogo{background:var(--blue);color:var(--navy-dark);border-color:transparent;}
+.chip-tipo-Baralho{background:var(--yellow);color:var(--navy-dark);border-color:transparent;}
+.chip-tipo-outro{background:var(--purple);color:var(--navy-dark);border-color:transparent;}
+
+.incomplete-banner{
+  display:flex;align-items:center;gap:10px;
+  background:var(--orange);color:var(--navy-dark);
+  border-radius:var(--radius);padding:11px 13px;
+  font-size:12.5px;font-weight:600;margin-bottom:14px;cursor:pointer;
+  line-height:1.35;
+}
+.incomplete-banner svg{width:18px;height:18px;flex-shrink:0;}
+
+.recent-item{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 4px;border-bottom:1px solid var(--border);cursor:pointer;
+}
+.recent-item:last-child{border-bottom:none;}
+.recent-item:active{background:var(--bg);border-radius:8px;}
+.recent-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.recent-item .rn{font-size:13px;font-weight:600;flex:1;}
+.recent-item .rt{font-size:11px;color:var(--text-faint);}
+
+/* Dashboard hero */
+.dash-hero{
+  background:linear-gradient(135deg, var(--navy) 0%, #4d63aa 100%);
+  border-radius:var(--radius);
+  padding:16px 18px 17px;
+  margin-bottom:14px;
+  color:#fff;
+}
+.dash-hero-text h2{font-family:'Baloo 2';font-size:20px;font-weight:800;color:#fff;margin:0 0 2px;}
+.dash-hero-text p{font-size:12px;color:rgba(255,255,255,.75);margin:0;}
+
+/* Search + filters */
+.search-wrap{position:relative;margin-bottom:10px;}
+.search-wrap svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:16px;height:16px;stroke:var(--text-faint);pointer-events:none;}
+.search-wrap input{
+  width:100%;padding:11px 38px 11px 38px;border-radius:var(--radius-sm);
+  border:1.5px solid var(--border);background:var(--surface);
+  font-size:14px;color:var(--text);outline:none;font-family:inherit;
+  transition:border-color .15s;
+}
+.search-wrap input:focus{border-color:var(--navy-light);}
+.search-clear{
+  position:absolute;right:6px;top:50%;transform:translateY(-50%);
+  background:var(--bg);border:none;color:var(--text-soft);
+  width:26px;height:26px;border-radius:8px;font-size:12px;cursor:pointer;
+}
+.search-clear:hover{background:var(--border);}
+
+.filters-bar{
+  display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;
+}
+.filter-pill{
+  background:var(--surface);border:1.5px solid var(--border);
+  padding:7px 13px;border-radius:999px;font-size:12px;font-weight:600;
+  color:var(--text-soft);display:inline-flex;align-items:center;gap:5px;white-space:nowrap;
+  transition:background .15s, border-color .15s;cursor:pointer;
+}
+.filter-pill:hover{border-color:var(--navy-light);}
+.filter-pill .chev{font-size:9px;opacity:.7;transition:transform .2s;}
+.filter-pill.opened .chev{transform:rotate(180deg);}
+.filter-pill .badge{background:var(--pink);color:var(--navy-dark);border-radius:999px;padding:0 6px;font-size:10px;line-height:1.5;}
+.filter-pill.filter-reset{background:var(--danger-bg);border-color:var(--danger-bg);color:var(--danger);}
+
+.filter-panel{max-height:0;overflow:hidden;transition:max-height .22s ease;}
+.filter-panel.open{max-height:540px;overflow-y:auto;}
+.filter-panel-inner{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:8px;}
+.filter-panel-head{margin-bottom:9px;}
+.filter-panel-search{
+  width:100%;padding:8px 11px;border-radius:9px;border:1.5px solid var(--border);
+  background:var(--bg);font-size:13px;outline:none;margin-bottom:8px;
+}
+.filter-panel-search:focus{border-color:var(--navy-light);background:var(--surface);}
+.mode-switch{display:flex;gap:5px;}
+.mode-btn{padding:5px 11px;border-radius:999px;border:1.5px solid var(--border);background:var(--bg);color:var(--text-soft);font-weight:600;font-size:11px;cursor:pointer;}
+.mode-btn.active{background:var(--purple);border-color:var(--purple);color:var(--navy-dark);}
+.filter-checklist{display:flex;flex-wrap:wrap;gap:6px;max-height:220px;overflow-y:auto;padding:2px;}
+.suggest-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px;max-height:140px;overflow-y:auto;padding:2px;}
+.skill-check{
+  padding:6px 11px;border-radius:999px;border:1.5px solid var(--border);
+  background:var(--bg);font-size:11.5px;font-weight:600;color:var(--text-soft);cursor:pointer;
+  transition:background .12s, border-color .12s, transform .1s;
+}
+.skill-check:hover{border-color:var(--navy-light);}
+.skill-check:active{transform:scale(.95);}
+.skill-check.checked{background:var(--navy);border-color:var(--navy);color:#fff;}
+.empty-hint{font-size:11.5px;color:var(--text-faint);font-style:italic;}
+
+.active-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--orange);color:var(--navy-dark);
+  padding:6px 12px;border-radius:999px;font-size:12px;font-weight:600;cursor:pointer;
+  margin-bottom:10px;
+}
+.active-tag span{opacity:.7;}
+
+/* Result cards */
+.res-card{
+  padding:13px 14px;margin-bottom:9px;cursor:pointer;
+  transition:box-shadow .15s, transform .1s;
+}
+.res-card:active{transform:scale(.99);}
+.res-card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:9px;margin-bottom:2px;}
+.res-card h4{font-size:14.5px;font-weight:700;color:var(--navy-dark);font-family:'Poppins';line-height:1.25;}
+.res-card .tipo-tag{
+  font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;
+  white-space:nowrap;flex-shrink:0;text-transform:uppercase;letter-spacing:.02em;
+}
+.res-card .desc{
+  font-size:12px;color:var(--text-soft);margin:5px 0 7px;line-height:1.45;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.res-card .meta-row{display:flex;flex-wrap:wrap;gap:5px;}
+.meta-tag{
+  background:var(--bg);color:var(--text-soft);padding:3px 8px;border-radius:6px;
+  font-weight:600;font-size:10.5px;line-height:1.4;
+}
+.meta-tag.meta-faixa{background:var(--blue);color:var(--navy-dark);}
+.meta-tag.meta-obj{background:var(--orange);color:var(--navy-dark);}
+.res-card .skills-row{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px;}
+.skill-tag{
+  background:var(--yellow);color:var(--navy-dark);padding:3px 8px;border-radius:6px;
+  font-size:10.5px;font-weight:600;line-height:1.35;
+}
+.skill-tag.obj-tag{background:var(--orange);}
+.skill-tag.more{background:var(--bg);color:var(--text-faint);}
+.incomplete-flag{color:var(--danger);font-size:10.5px;font-weight:700;display:flex;align-items:center;gap:3px;margin-top:6px;}
+
+.empty-state{text-align:center;padding:44px 20px;color:var(--text-faint);}
+.empty-state svg{width:46px;height:46px;stroke:var(--text-faint);margin-bottom:10px;opacity:.6;}
+.empty-state p{font-size:13px;margin:3px 0;}
+
+/* Forms */
+.form-card{padding:16px;margin-bottom:14px;}
+.form-row{margin-bottom:13px;}
+.form-row label{display:block;font-size:12px;font-weight:600;color:var(--text-soft);margin-bottom:5px;}
+.form-row > input[type="text"], .form-row > input[type="number"], .form-row > textarea, .form-row > select{
+  width:100%;padding:11px 13px;border-radius:var(--radius-sm);
+  border:1.5px solid var(--border);background:var(--bg);
+  font-size:14px;color:var(--text);outline:none;font-family:inherit;
+  transition:border-color .15s, background .15s;
+}
+.form-row > input:focus, .form-row > textarea:focus, .form-row > select:focus{
+  border-color:var(--navy-light);background:var(--surface);
+}
+.form-row > textarea{resize:vertical;min-height:64px;line-height:1.4;}
+.form-hint{font-size:10.5px;color:var(--text-faint);margin-top:5px;line-height:1.4;}
+.chip-input-wrap{
+  display:flex;flex-wrap:wrap;gap:5px;padding:8px;
+  border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);
+  transition:border-color .15s;
+}
+.chip-input-wrap:focus-within{border-color:var(--navy-light);background:var(--surface);}
+.chip-input-wrap input{border:none;background:transparent;flex:1;min-width:120px;padding:4px 5px;font-size:13px;outline:none;}
+.chip-editable{
+  display:inline-flex;align-items:center;gap:4px;background:var(--yellow);
+  color:var(--navy-dark);padding:4px 5px 4px 10px;border-radius:999px;
+  font-size:11.5px;font-weight:600;line-height:1.35;
+}
+.chip-editable button{
+  background:rgba(35,41,70,.12);border:none;color:var(--navy-dark);
+  width:18px;height:18px;border-radius:50%;font-size:10px;line-height:1;padding:0;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+}
+.chip-editable button:hover{background:rgba(35,41,70,.24);}
+/* Chip para objetivos: laranja (visualmente distinto de habilidade) */
+.chip-input-wrap[data-chip-wrap="formObjetivos"] .chip-editable{background:var(--orange);}
+.form-actions{display:flex;gap:8px;margin-top:16px;}
+.form-actions .btn{flex:1;}
+
+/* Import / Export */
+.dropzone{
+  border:2px dashed var(--navy-light);border-radius:var(--radius);
+  padding:24px 16px;background:var(--surface);
+  color:var(--text-soft);cursor:pointer;margin-bottom:12px;
+  transition:background .15s, border-color .15s;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  text-align:center;
+}
+.dropzone:hover{background:var(--bg);border-color:var(--navy);}
+.dropzone svg{width:28px;height:28px;stroke:var(--navy);flex-shrink:0;}
+.dropzone strong{color:var(--navy);display:block;font-size:13.5px;}
+.dropzone span{font-size:12px;color:var(--text-faint);}
+.import-summary{padding:14px;margin-bottom:12px;}
+.import-summary .row{display:flex;justify-content:space-between;padding:6px 0;font-size:12.5px;border-bottom:1px solid var(--border);}
+.import-summary .row:last-child{border-bottom:none;}
+.import-list{max-height:260px;overflow-y:auto;margin:10px 0;border-top:1px solid var(--border);}
+.import-row{display:flex;justify-content:space-between;align-items:center;padding:9px 2px;font-size:12.5px;border-bottom:1px solid var(--border);}
+.import-row .status{font-size:10px;font-weight:700;padding:2px 8px;border-radius:6px;}
+.status-new{background:var(--yellow);color:var(--navy-dark);}
+.status-dup{background:var(--orange);color:var(--navy-dark);}
+.status-skip{background:var(--danger-bg);color:var(--danger);}
+.status-replace{background:var(--purple);color:var(--navy-dark);}
+
+/* Modal */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(35,41,70,.5);
+  display:flex;align-items:flex-end;justify-content:center;
+  z-index:100;backdrop-filter:blur(2px);
+}
+.modal-overlay.center{align-items:center;padding:16px;}
+.modal-sheet{
+  background:var(--surface);width:100%;max-width:480px;
+  border-radius:22px 22px 0 0;max-height:92vh;overflow-y:auto;
+  padding:18px 18px calc(18px + env(safe-area-inset-bottom));
+  animation:sheet-up .22s ease;
+}
+.modal-overlay.center .modal-sheet{border-radius:var(--radius-lg);max-height:88vh;}
+@keyframes sheet-up{from{transform:translateY(24px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:10px;}
+.modal-head h3{font-size:17px;color:var(--navy);line-height:1.2;flex:1;}
+.modal-close{background:var(--bg);border:none;width:30px;height:30px;border-radius:9px;color:var(--text-soft);font-size:14px;cursor:pointer;flex-shrink:0;}
+
+.dup-compare{display:flex;flex-direction:column;gap:10px;margin-bottom:14px;}
+.dup-col{border:1.5px solid var(--border);border-radius:var(--radius);padding:12px;}
+.dup-col.existing{border-color:var(--purple);background:#FAF9FF;}
+.dup-col.incoming{border-color:var(--blue);background:#F7FBFF;}
+.dup-col-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:7px;}
+.dup-col.existing .dup-col-label{color:var(--purple);}
+.dup-col.incoming .dup-col-label{color:var(--navy)}
+.dup-field{margin-bottom:6px;font-size:12px;line-height:1.4;}
+.dup-field b{display:block;font-size:9.5px;color:var(--text-faint);font-weight:600;text-transform:uppercase;letter-spacing:.03em;margin-bottom:1px;}
+.dup-actions{display:flex;flex-direction:column;gap:7px;}
+
+.toast-wrap{position:fixed;top:14px;left:0;right:0;z-index:200;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;padding:0 12px;}
+.toast{
+  background:var(--navy-dark);color:#fff;padding:10px 16px;border-radius:999px;
+  font-size:12.5px;font-weight:600;box-shadow:var(--shadow-lift);
+  display:flex;align-items:center;gap:8px;
+  animation:toast-in .2s ease;max-width:100%;
+}
+.toast.err{background:var(--danger);}
+.toast.ok{background:#3E8E6B;}
+@keyframes toast-in{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+
+.loader{display:flex;align-items:center;justify-content:center;padding:40px;color:var(--text-faint);gap:10px;font-size:13px;}
+.spinner{width:18px;height:18px;border:2.5px solid var(--border);border-top-color:var(--navy);border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.detail-field{margin-bottom:12px;}
+.detail-field b{display:block;font-size:10px;color:var(--text-faint);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px;}
+.detail-field span{font-size:13px;line-height:1.45;}
+.detail-field.empty span{color:var(--text-faint);font-style:italic;}
+
+@media (min-width:760px){
+  body{padding-bottom:0;}
+  .bottom-nav{display:none;}
+  .topbar{padding:13px 32px;}
+  .view{padding:22px 32px 40px;}
+  .grid-stats{grid-template-columns:repeat(4,1fr);}
+  .view-head h2{font-size:24px;}
+  .desktop-nav{display:flex;gap:4px;}
+  .desktop-nav .nav-btn{flex:none;flex-direction:row;color:rgba(255,255,255,.75);padding:8px 13px;}
+  .desktop-nav .nav-btn svg{stroke:rgba(255,255,255,.75);width:16px;height:16px;}
+  .desktop-nav .nav-btn.active{background:rgba(255,255,255,.16);color:#fff;}
+  .desktop-nav .nav-btn.active svg{stroke:#fff;}
+  .res-card{padding:15px 17px;}
+  .res-card h4{font-size:15px;}
+  .form-card{padding:20px 22px;}
+}
+@media (max-width:759px){
+  .desktop-nav{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ GATE: user name ============ -->
+<div id="gate-name" class="gate-screen hidden">
+  <div class="gate-card">
+    <div class="logo-badge">
+      <svg width="52" height="62.4" viewBox="0 0 240 288" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12,0C13,7 17,11 24,12C17,13 13,17 12,24C11,17 7,13 0,12C7,11 11,7 12,0Z" fill="#EBFC9E" transform="translate(196.2,0) scale(1.825,1.8)"/>
+        <path d="M12,0C13,7 17,11 24,12C17,13 13,17 12,24C11,17 7,13 0,12C7,11 11,7 12,0Z" fill="#EBFC9E" transform="translate(15,95.4) scale(1.8375,1.8125)"/>
+        <circle cx="199.3" cy="130.8" r="7.7" fill="#EBFC9E"/>
+        <circle cx="7.5" cy="220.9" r="7.5" fill="#EBFC9E"/>
+        <rect x="96.4" y="43.2" width="47.9" height="63.5" rx="6" fill="#A3CDFA"/>
+        <rect x="108.3" y="117" width="34.4" height="103.9" rx="6" fill="#FEC3F9"/>
+        <rect x="119.8" y="231.9" width="17.9" height="35.3" rx="4" fill="#BBB0FE"/>
+        <rect x="109.8" y="267.2" width="130.2" height="20.4" rx="5" fill="#BBB0FE"/>
+      </svg>
+    </div>
+    <div class="gate-eyebrow">Espaço</div>
+    <div class="gate-title">Luneta</div>
+    <p class="gate-sub">Catálogo de jogos, livros e recursos terapêuticos.<br>Como podemos te chamar?</p>
+    <div class="field">
+      <label>Seu nome</label>
+      <input type="text" id="user-name-input" placeholder="Ex: Rejane">
+    </div>
+    <button class="btn btn-primary btn-block" id="btn-save-name">Entrar</button>
+    <p class="gate-foot">Usado apenas para identificar quem cadastrou ou editou cada item.</p>
+  </div>
+</div>
+
+<!-- ============ LOADING ============ -->
+<div id="gate-loading" class="gate-screen hidden">
+  <div style="text-align:center;color:#fff;">
+    <div class="spinner" style="border-color:rgba(255,255,255,.25);border-top-color:#fff;margin:0 auto 14px;"></div>
+    <div style="font-size:13px;opacity:.8;">Conectando ao catálogo…</div>
+  </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="app">
+  <div class="topbar">
+    <div class="topbar-brand">
+      <svg width="26" height="31.2" viewBox="0 0 240 288" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12,0C13,7 17,11 24,12C17,13 13,17 12,24C11,17 7,13 0,12C7,11 11,7 12,0Z" fill="#EBFC9E" transform="translate(196.2,0) scale(1.825,1.8)"/>
+        <path d="M12,0C13,7 17,11 24,12C17,13 13,17 12,24C11,17 7,13 0,12C7,11 11,7 12,0Z" fill="#EBFC9E" transform="translate(15,95.4) scale(1.8375,1.8125)"/>
+        <circle cx="199.3" cy="130.8" r="7.7" fill="#EBFC9E"/>
+        <circle cx="7.5" cy="220.9" r="7.5" fill="#EBFC9E"/>
+        <rect x="96.4" y="43.2" width="47.9" height="63.5" rx="6" fill="#A3CDFA"/>
+        <rect x="108.3" y="117" width="34.4" height="103.9" rx="6" fill="#FEC3F9"/>
+        <rect x="119.8" y="231.9" width="17.9" height="35.3" rx="4" fill="#BBB0FE"/>
+        <rect x="109.8" y="267.2" width="130.2" height="20.4" rx="5" fill="#BBB0FE"/>
+      </svg>
+      <div class="topbar-title">
+        <span class="topbar-eyebrow">Espaço</span>
+        <span class="topbar-luneta">Luneta</span>
+      </div>
+    </div>
+    <nav class="desktop-nav" id="desktop-nav"></nav>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="btn-settings" title="Configurações">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 004.6 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="view-root" class="view"></div>
+
+  <div class="bottom-nav" id="bottom-nav"></div>
+</div>
+
+<div id="modal-root"></div>
+<div class="toast-wrap" id="toast-wrap"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script>
+/* =====================================================================
+   ESPAÇO LUNETA — Catálogo de recursos terapêuticos
+   Single-file app · Firebase Firestore (compartilhado entre dispositivos)
+   ===================================================================== */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   CONFIGURAÇÃO DO FIREBASE
+   Quando tiver os dados, substitua null pelo objeto firebaseConfig:
+   const FIREBASE_CONFIG = {
+     apiKey: "...",
+     authDomain: "...",
+     projectId: "...",
+     storageBucket: "...",
+     messagingSenderId: "...",
+     appId: "..."
+   };
+   O app detecta automaticamente e usa a nuvem.
+   ───────────────────────────────────────────────────────────────────────────── */
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyA4zJ-pqXHhHRRZQ5o_O1gPZQeIC_FVmxs",
+  authDomain: "luneta-8da0f.firebaseapp.com",
+  projectId: "luneta-8da0f",
+  storageBucket: "luneta-8da0f.firebasestorage.app",
+  messagingSenderId: "253322858374",
+  appId: "1:253322858374:web:97dd0d16e8a59a94d56607"
+}; // ← configuração do projeto Firebase da clínica
+
+const LS_KEYS = { name: 'luneta_user_name' };
+
+const state = {
+  db: null,
+  recursos: [],           // todos os recursos carregados do Firestore {id, ...}
+  loaded: false,
+  view: 'dashboard',      // dashboard | catalogo | cadastrar | importar
+  catalogo: {
+    search: '',
+    onlyIncomplete: false,
+    filters: {
+      tipo:        { selected: new Set(), search: '', open: false },
+      faixa:       { selected: new Set(), search: '', open: false },
+      objetivo:    { selected: new Set(), search: '', open: false, mode: 'ou' },
+      habilidades: { selected: new Set(), search: '', open: false, mode: 'ou' },
+    },
+  },
+  editingId: null,
+  formSkills: [],
+  formObjetivos: [],
+  importStaged: [],        // itens prontos pra importar após checagem de duplicidade
+  importDupQueue: [],
+};
+
+const TIPOS_PADRAO = ['Livro','Jogo','Jogo Terapêutico','Jogo Terapêutico Cognos','Baralho','Baralho (grande)'];
+
+function tipoClass(tipo){
+  if(!tipo) return 'chip-tipo-outro';
+  if(tipo.startsWith('Livro')) return 'chip-tipo-Livro';
+  if(tipo.startsWith('Jogo')) return 'chip-tipo-Jogo';
+  if(tipo.startsWith('Baralho')) return 'chip-tipo-Baralho';
+  return 'chip-tipo-outro';
+}
+function tipoColorInline(tipo){
+  const map = {'Livro':'#FEC3F9','Jogo':'#A3CDFA','Baralho':'#EBFC9E'};
+  for(const k in map){ if(tipo && tipo.startsWith(k)) return map[k]; }
+  return '#BBB0FE';
+}
+function esc(s){
+  return (s==null?'':String(s)).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function normName(s){ return (s||'').trim().toLowerCase().replace(/\s+/g,' '); }
+function splitSkills(s){ return (s||'').split(';').map(x=>x.trim()).filter(Boolean); }
+function isIncomplete(r){
+  return !r.descricao || !r.faixaEtaria || !r.objetivo || !r.habilidades;
+}
+function getLocalBackupRecursos(){
+  try{
+    const data = JSON.parse(localStorage.getItem('luneta_local_recursos') || '{}');
+    return Object.values(data).map(r=>({
+      nome: r.nome||'', tipo: r.tipo||'', descricao: r.descricao||'',
+      faixaEtaria: r.faixaEtaria||'', objetivo: r.objetivo||'', habilidades: r.habilidades||'',
+    })).filter(r=>r.nome);
+  }catch(e){ return []; }
+}
+function timeAgo(ts){
+  if(!ts) return '';
+  const d = ts.toDate ? ts.toDate() : new Date(ts);
+  const diff = (Date.now()-d.getTime())/1000;
+  if(diff<60) return 'agora há pouco';
+  if(diff<3600) return Math.floor(diff/60)+' min atrás';
+  if(diff<86400) return Math.floor(diff/3600)+'h atrás';
+  if(diff<86400*30) return Math.floor(diff/86400)+' dia(s) atrás';
+  return d.toLocaleDateString('pt-BR');
+}
+
+function toast(msg, kind){
+  const wrap = document.getElementById('toast-wrap');
+  const el = document.createElement('div');
+  el.className = 'toast'+(kind?(' '+kind):'');
+  el.textContent = msg;
+  wrap.appendChild(el);
+  setTimeout(()=>{ el.style.transition='opacity .3s'; el.style.opacity='0'; setTimeout(()=>el.remove(),300); }, 2600);
+}
+
+/* ---------------------------------------------------------------------
+   DATA ADAPTER — modo local (localStorage) ou nuvem (Firestore)
+   Ambos expõem a mesma interface: subscribe / add / update / remove / timestamp
+   --------------------------------------------------------------------- */
+function makeLocalAPI(){
+  const LS_DATA = 'luneta_local_recursos';
+  let listeners = [];
+  function readAll(){
+    try{ return JSON.parse(localStorage.getItem(LS_DATA) || '{}'); }catch(e){ return {}; }
+  }
+  function writeAll(obj){ localStorage.setItem(LS_DATA, JSON.stringify(obj)); notify(); }
+  function notify(){
+    const data = readAll();
+    const list = Object.keys(data).map(id=>({id, ...data[id]}));
+    listeners.forEach(cb=>cb(list));
+  }
+  let idc = 0;
+  function genId(){ idc++; return 'local_'+Date.now().toString(36)+'_'+idc; }
+  return {
+    mode:'local',
+    subscribe(cb){ listeners.push(cb); notify(); return ()=>{ listeners = listeners.filter(l=>l!==cb); }; },
+    add(data){ return new Promise(res=>{ const all=readAll(); const id=genId(); all[id]=data; writeAll(all); res({id}); }); },
+    update(id,data){ return new Promise(res=>{ const all=readAll(); all[id] = {...all[id], ...data}; writeAll(all); res(); }); },
+    remove(id){ return new Promise(res=>{ const all=readAll(); delete all[id]; writeAll(all); res(); }); },
+    timestamp(){ const secs = Math.floor(Date.now()/1000); return { seconds: secs, toDate(){ return new Date(secs*1000); } }; },
+    exportAll(){ const data=readAll(); return Object.values(data); },
+  };
+}
+function makeCloudAPI(db){
+  const col = ()=>db.collection('recursos');
+  return {
+    mode:'cloud',
+    subscribe(cb){
+      return col().orderBy('nome').onSnapshot(snap=>{
+        cb(snap.docs.map(d=>({id:d.id, ...d.data()})));
+      }, err=>{
+        console.error(err);
+        toast('Erro ao carregar dados do Firestore. Confira as regras de acesso.', 'err');
+        cb([]);
+      });
+    },
+    add(data){ return col().add(data); },
+    update(id,data){ return col().doc(id).update(data); },
+    remove(id){ return col().doc(id).delete(); },
+    timestamp(){ return firebase.firestore.FieldValue.serverTimestamp(); },
+  };
+}
+
+/* ---------------------------------------------------------------------
+   BOOT / GATES
+   --------------------------------------------------------------------- */
+function boot(){
+  if(FIREBASE_CONFIG){
+    if(!initFirebase(FIREBASE_CONFIG)) return; // erro de config → para
+  } else {
+    state.api = makeLocalAPI();
+  }
+  const name = localStorage.getItem(LS_KEYS.name);
+  if(!name){ showGate('gate-name'); return; }
+  startApp();
+}
+function showGate(id){
+  document.querySelectorAll('.gate-screen').forEach(g=>g.classList.add('hidden'));
+  document.getElementById('app').classList.remove('active');
+  if(id==='app'){ document.getElementById('app').classList.add('active'); }
+  else{ document.getElementById(id).classList.remove('hidden'); }
+}
+
+function initFirebase(config){
+  try{
+    if(!firebase.apps.length){ firebase.initializeApp(config); }
+    state.db = firebase.firestore();
+    state.api = makeCloudAPI(state.db);
+    return true;
+  }catch(e){
+    console.error(e);
+    toast('Erro ao conectar ao Firebase. Verifique a constante FIREBASE_CONFIG no código.', 'err');
+    state.api = makeLocalAPI(); // fallback para local
+    return false;
+  }
+}
+
+// Configuração do Firebase via constante FIREBASE_CONFIG no topo do script.
+
+document.getElementById('btn-save-name').addEventListener('click', ()=>{
+  const v = document.getElementById('user-name-input').value.trim();
+  if(!v){ toast('Digite seu nome.', 'err'); return; }
+  localStorage.setItem(LS_KEYS.name, v);
+  startApp();
+});
+document.getElementById('user-name-input').addEventListener('keydown', e=>{
+  if(e.key==='Enter') document.getElementById('btn-save-name').click();
+});
+
+function startApp(){
+  showGate('gate-loading');
+  state.api.subscribe(list=>{
+    state.recursos = list.sort((a,b)=>(a.nome||'').localeCompare(b.nome||'','pt-BR'));
+    state.loaded = true;
+    if(!document.getElementById('app').classList.contains('active')){
+      showGate('app');
+      renderNav();
+    }
+    render();
+  });
+}
+
+/* ---------------------------------------------------------------------
+   NAV
+   --------------------------------------------------------------------- */
+const NAV_ITEMS = [
+  {id:'dashboard', label:'Início', icon:'M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10'},
+  {id:'catalogo', label:'Catálogo', icon:'M4 6h16M4 12h16M4 18h10'},
+  {id:'cadastrar', label:'Cadastrar', icon:'M12 5v14M5 12h14'},
+  {id:'importar', label:'Importar', icon:'M12 3v12m0 0l-4-4m4 4l4-4M4 19h16'},
+];
+function renderNav(){
+  const bottom = document.getElementById('bottom-nav');
+  const desktop = document.getElementById('desktop-nav');
+  bottom.innerHTML = NAV_ITEMS.map(it=>navBtnHTML(it)).join('');
+  desktop.innerHTML = NAV_ITEMS.map(it=>navBtnHTML(it)).join('');
+  document.querySelectorAll('.nav-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ setView(btn.dataset.view); });
+  });
+}
+function navBtnHTML(it){
+  const active = state.view===it.id ? ' active' : '';
+  return `<button class="nav-btn${active}" data-view="${it.id}">
+    <svg viewBox="0 0 24 24"><path d="${it.icon}" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span>${it.label}</span>
+  </button>`;
+}
+function setView(v, clearForm){
+  if(clearForm===undefined) clearForm = true;
+  state.view = v;
+  if(v==='cadastrar' && clearForm) resetForm();
+  renderNav();
+  render();
+  window.scrollTo({top:0, behavior:'instant'});
+}
+
+/* Delegação global: um único listener por tipo, no document.
+   Cada handler checa state.view pra só agir quando a view certa está ativa. */
+document.addEventListener('click', e=>{
+  if(state.view==='catalogo') catalogoClickHandler(e);
+  if(state.view==='cadastrar') cadastroClickHandler(e);
+});
+document.addEventListener('input', e=>{
+  if(state.view==='catalogo') catalogoInputHandler(e);
+  if(state.view==='cadastrar') cadastroInputHandler(e);
+});
+document.addEventListener('keydown', e=>{
+  if(state.view==='cadastrar') cadastroKeydownHandler(e);
+});
+
+document.getElementById('btn-settings').addEventListener('click', ()=>openSettingsModal());
+
+/* ---------------------------------------------------------------------
+   RENDER ROOT
+   --------------------------------------------------------------------- */
+function render(){
+  const root = document.getElementById('view-root');
+  if(!state.loaded){ root.innerHTML = `<div class="loader"><div class="spinner"></div>Carregando catálogo…</div>`; return; }
+  if(state.view==='dashboard') root.innerHTML = renderDashboard();
+  else if(state.view==='catalogo'){ root.innerHTML = renderCatalogo(); bindCatalogoEvents(); }
+  else if(state.view==='cadastrar'){ root.innerHTML = renderCadastro(); bindCadastroEvents(); }
+  else if(state.view==='importar'){ root.innerHTML = renderImportar(); bindImportarEvents(); }
+  if(state.view==='dashboard') bindDashboardEvents();
+}
+
+/* =====================================================================
+   DASHBOARD
+   ===================================================================== */
+function renderDashboard(){
+  const total = state.recursos.length;
+  const porTipo = {};
+  const porFaixa = {};
+  state.recursos.forEach(r=>{
+    const t=r.tipo||'Sem tipo'; porTipo[t]=(porTipo[t]||0)+1;
+    if(r.faixaEtaria){ porFaixa[r.faixaEtaria]=(porFaixa[r.faixaEtaria]||0)+1; }
+  });
+  const incompletos = state.recursos.filter(isIncomplete).length;
+  const allSkills = new Set();
+  const allObjetivos = new Set();
+  state.recursos.forEach(r=>{
+    splitSkills(r.habilidades).forEach(s=>allSkills.add(s));
+    splitObjetivos(r.objetivo).forEach(o=>allObjetivos.add(o));
+  });
+  const recentes = [...state.recursos]
+    .filter(r=>r.criadoEm)
+    .sort((a,b)=> (b.criadoEm?.seconds||0) - (a.criadoEm?.seconds||0))
+    .slice(0,6);
+
+  const tipoCards = Object.entries(porTipo).sort((a,b)=>b[1]-a[1]);
+  const faixaCards = Object.entries(porFaixa).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  const nome = localStorage.getItem(LS_KEYS.name);
+
+  return `
+    <div class="dash-hero">
+      <div class="dash-hero-text">
+        <h2>Olá${nome ? ', '+esc(nome) : ''}</h2>
+        <p>${total} recurso(s) no catálogo · ${allSkills.size} habilidades · ${allObjetivos.size} objetivos</p>
+      </div>
+    </div>
+
+    ${incompletos>0 ? `
+    <div class="incomplete-banner" id="banner-incompletos">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+      <span><b>${incompletos} recurso(s) incompleto(s).</b> Toque para revisar.</span>
+    </div>` : ''}
+
+    <div class="grid-stats">
+      <div class="card stat-card stat-navy">
+        <span class="num">${total}</span>
+        <span class="lbl">Recursos</span>
+      </div>
+      <div class="card stat-card stat-blue">
+        <span class="num">${Object.keys(porTipo).length}</span>
+        <span class="lbl">Tipos</span>
+      </div>
+      <div class="card stat-card stat-purple">
+        <span class="num">${allSkills.size}</span>
+        <span class="lbl">Habilidades</span>
+      </div>
+      <div class="card stat-card stat-orange">
+        <span class="num">${allObjetivos.size}</span>
+        <span class="lbl">Objetivos</span>
+      </div>
+    </div>
+
+    ${tipoCards.length ? `
+    <div class="section-title">Por tipo</div>
+    <div class="chip-row" id="dash-tipo-chips">
+      ${tipoCards.map(([t,n])=>`<button class="chip" data-tipo="${esc(t)}" style="background:${tipoColorInline(t)};color:var(--navy-dark);border-color:transparent;">${esc(t)} <span class="count">${n}</span></button>`).join('')}
+    </div>` : ''}
+
+    ${faixaCards.length ? `
+    <div class="section-title">Por faixa etária</div>
+    <div class="chip-row" id="dash-faixa-chips">
+      ${faixaCards.map(([f,n])=>`<button class="chip" data-faixa="${esc(f)}">${esc(f)} <span class="count">${n}</span></button>`).join('')}
+    </div>` : ''}
+
+    ${recentes.length ? `
+    <div class="section-title">Adicionados recentemente</div>
+    <div class="card" style="padding:2px 14px;">
+      ${recentes.map(r=>`
+        <div class="recent-item" data-id="${r.id}">
+          <span class="recent-dot" style="background:${tipoColorInline(r.tipo)}"></span>
+          <span class="rn">${esc(r.nome)}</span>
+          <span class="rt">${timeAgo(r.criadoEm)}</span>
+        </div>`).join('')}
+    </div>` : `<div class="card" style="padding:24px;text-align:center;color:var(--text-faint);font-size:13px;">Nenhum recurso cadastrado ainda. Comece pela aba <b>Cadastrar</b> ou <b>Importar</b>.</div>`}
+  `;
+}
+function bindDashboardEvents(){
+  const banner = document.getElementById('banner-incompletos');
+  if(banner) banner.addEventListener('click', ()=>{
+    state.catalogo.search = '';
+    Object.values(state.catalogo.filters).forEach(f=>{ f.selected = new Set(); f.search=''; });
+    state.catalogo.onlyIncomplete = true;
+    setView('catalogo');
+  });
+  document.querySelectorAll('#dash-tipo-chips [data-tipo]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      Object.values(state.catalogo.filters).forEach(f=>{ f.selected = new Set(); });
+      state.catalogo.filters.tipo.selected = new Set([btn.dataset.tipo]);
+      state.catalogo.onlyIncomplete = false;
+      setView('catalogo');
+    });
+  });
+  document.querySelectorAll('#dash-faixa-chips [data-faixa]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      Object.values(state.catalogo.filters).forEach(f=>{ f.selected = new Set(); });
+      state.catalogo.filters.faixa.selected = new Set([btn.dataset.faixa]);
+      state.catalogo.onlyIncomplete = false;
+      setView('catalogo');
+    });
+  });
+  document.querySelectorAll('.recent-item[data-id]').forEach(el=>{
+    el.addEventListener('click', ()=>openDetailModal(el.dataset.id));
+  });
+}
+
+/* =====================================================================
+   CATÁLOGO
+   ===================================================================== */
+function getAllSkills(){
+  const set = new Set();
+  state.recursos.forEach(r=>splitSkills(r.habilidades).forEach(s=>set.add(s)));
+  return [...set].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+}
+function getAllFaixas(){
+  const set = new Set();
+  state.recursos.forEach(r=>{ if(r.faixaEtaria) set.add(r.faixaEtaria); });
+  return [...set].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+}
+function getAllTipos(){
+  const set = new Set();
+  state.recursos.forEach(r=>set.add(r.tipo||'Sem tipo'));
+  return [...set].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+}
+function splitObjetivos(s){ return (s||'').split(';').map(x=>x.trim()).filter(Boolean); }
+function getAllObjetivos(){
+  const set = new Set();
+  state.recursos.forEach(r=>splitObjetivos(r.objetivo).forEach(o=>set.add(o)));
+  return [...set].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+}
+
+/* Definição genérica dos 4 painéis de filtro do catálogo.
+   'multi' = campo com múltiplos valores por item (separados por ';'), usa E/OU
+   'single' = campo com um valor único por item, múltiplas seleções sempre operam como OU */
+const FILTER_DEFS = {
+  tipo:        { label:'Tipo',              icon:'🏷️', kind:'single', getOptions:getAllTipos,     itemValues:r=>[r.tipo||'Sem tipo'],   placeholder:'Buscar tipo…' },
+  faixa:       { label:'Faixa etária',      icon:'👤', kind:'single', getOptions:getAllFaixas,    itemValues:r=>[r.faixaEtaria||''],    placeholder:'Buscar faixa etária…' },
+  objetivo:    { label:'Objetivo terapêutico', icon:'🎯', kind:'multi', getOptions:getAllObjetivos, itemValues:r=>splitObjetivos(r.objetivo), placeholder:'Buscar objetivo…' },
+  habilidades: { label:'Habilidades trabalhadas', icon:'✨', kind:'multi', getOptions:getAllSkills, itemValues:r=>splitSkills(r.habilidades), placeholder:'Buscar habilidade…' },
+};
+
+function matchesFilter(key, r){
+  const c = state.catalogo;
+  const f = c.filters[key];
+  if(f.selected.size===0) return true;
+  const values = FILTER_DEFS[key].itemValues(r);
+  const kind = FILTER_DEFS[key].kind;
+  if(kind==='multi' && f.mode==='e'){
+    for(const s of f.selected){ if(!values.includes(s)) return false; }
+    return true;
+  }
+  // OU (para single sempre; para multi quando mode='ou')
+  for(const s of f.selected){ if(values.includes(s)) return true; }
+  return false;
+}
+
+function filteredRecursos(){
+  const c = state.catalogo;
+  const q = normName(c.search);
+  return state.recursos.filter(r=>{
+    if(c.onlyIncomplete && !isIncomplete(r)) return false;
+    for(const key of Object.keys(FILTER_DEFS)){ if(!matchesFilter(key, r)) return false; }
+    if(q){
+      const hay = normName([r.nome, r.descricao, r.objetivo, r.tipo, r.faixaEtaria, r.habilidades].filter(Boolean).join(' '));
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  }).sort((a,b)=>a.nome.localeCompare(b.nome,'pt-BR'));
+}
+
+function renderFilterToggleBtn(key){
+  const def = FILTER_DEFS[key];
+  const f = state.catalogo.filters[key];
+  const active = f.selected.size>0;
+  const opened = f.open ? ' opened' : '';
+  return `<button class="filter-pill${opened}" data-toggle="${key}" style="${active?'background:var(--purple);border-color:var(--purple);color:var(--navy-dark);':''}">
+    ${def.icon} ${esc(def.label)}${active?` <span class="badge">${f.selected.size}</span>`:''} <span class="chev">▾</span>
+  </button>`;
+}
+function renderFilterPanel(key){
+  const def = FILTER_DEFS[key];
+  const f = state.catalogo.filters[key];
+  const options = def.getOptions();
+  const q = normName(f.search);
+  const filtered = q ? options.filter(o=>normName(o).includes(q)) : options;
+  return `
+    <div class="filter-panel ${f.open?'open':''}" id="panel-${key}">
+      <div class="filter-panel-inner">
+        <div class="filter-panel-head">
+          <input type="text" class="filter-panel-search" data-panel-search="${key}" placeholder="${esc(def.placeholder)}" value="${esc(f.search)}">
+          ${def.kind==='multi' ? `
+            <div class="mode-switch">
+              <button class="mode-btn ${f.mode==='ou'?'active':''}" data-mode-for="${key}" data-mode="ou">Qualquer (OU)</button>
+              <button class="mode-btn ${f.mode==='e'?'active':''}" data-mode-for="${key}" data-mode="e">Todas (E)</button>
+            </div>` : ''}
+        </div>
+        <div class="filter-checklist">
+          ${filtered.length ? filtered.map(o=>`
+            <button class="skill-check ${f.selected.has(o)?'checked':''}" data-filter="${key}" data-value="${esc(o)}">${esc(o)}</button>
+          `).join('') : `<span style="font-size:12px;color:var(--text-faint);">Nenhuma opção.</span>`}
+        </div>
+        ${f.selected.size ? `<button class="link-btn" data-clear="${key}">Limpar</button>` : ''}
+      </div>
+    </div>
+  `;
+}
+
+function renderCatalogo(){
+  const c = state.catalogo;
+  const results = filteredRecursos();
+  const anyFilterActive = Object.values(c.filters).some(f=>f.selected.size>0) || c.onlyIncomplete || c.search;
+
+  return `
+    <div class="view-head compact">
+      <h2>Catálogo</h2>
+      <p>${state.recursos.length} recurso(s) · ${results.length} exibido(s)</p>
+    </div>
+
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35" stroke-linecap="round"/></svg>
+      <input type="text" id="cat-search" placeholder="Buscar por nome, descrição, tipo, faixa, objetivo…" value="${esc(c.search)}">
+      ${c.search ? `<button class="search-clear" id="cat-search-clear" aria-label="Limpar">✕</button>` : ''}
+    </div>
+
+    <div class="filters-bar">
+      ${Object.keys(FILTER_DEFS).map(k=>renderFilterToggleBtn(k)).join('')}
+      ${anyFilterActive ? `<button class="filter-pill filter-reset" id="btn-reset-filters">Limpar tudo ✕</button>` : ''}
+    </div>
+    ${Object.keys(FILTER_DEFS).map(k=>renderFilterPanel(k)).join('')}
+
+    ${c.onlyIncomplete ? `<div class="active-tag" id="chip-only-incomplete">⚠️ Só incompletos <span>✕</span></div>` : ''}
+
+    <div id="catalogo-results">
+      ${results.length ? results.map(r=>resourceCardHTML(r)).join('') : `
+        <div class="empty-state">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35" stroke-linecap="round"/></svg>
+          <p><strong>Nenhum recurso encontrado</strong></p>
+          <p>Ajuste os filtros ou o termo de busca.</p>
+        </div>`}
+    </div>
+  `;
+}
+
+function resourceCardHTML(r){
+  const skills = splitSkills(r.habilidades);
+  const shownSkills = skills.slice(0,5);
+  const restSkills = skills.length - shownSkills.length;
+  const objetivos = splitObjetivos(r.objetivo);
+  const shownObj = objetivos.slice(0,2);
+  const restObj = objetivos.length - shownObj.length;
+  return `
+    <div class="card res-card" data-id="${r.id}">
+      <div class="res-card-top">
+        <h4>${esc(r.nome)}</h4>
+        <span class="tipo-tag" style="background:${tipoColorInline(r.tipo)};color:var(--navy-dark);">${esc(r.tipo||'Sem tipo')}</span>
+      </div>
+      ${r.descricao ? `<p class="desc">${esc(r.descricao)}</p>` : ''}
+      <div class="meta-row">
+        ${r.faixaEtaria ? `<span class="meta-tag meta-faixa">👤 ${esc(r.faixaEtaria)}</span>` : ''}
+        ${shownObj.map(o=>`<span class="meta-tag meta-obj">🎯 ${esc(o)}</span>`).join('')}
+        ${restObj>0?`<span class="meta-tag">+${restObj} obj.</span>`:''}
+      </div>
+      ${shownSkills.length ? `<div class="skills-row">
+        ${shownSkills.map(s=>`<span class="skill-tag">${esc(s)}</span>`).join('')}
+        ${restSkills>0?`<span class="skill-tag more">+${restSkills}</span>`:''}
+      </div>` : ''}
+      ${isIncomplete(r) ? `<div class="incomplete-flag">⚠ Dados incompletos</div>` : ''}
+    </div>
+  `;
+}
+
+function bindCatalogoEvents(){
+  // Listeners de click/input tratados globalmente via delegação no document.
+  const chipIncomplete = document.getElementById('chip-only-incomplete');
+  if(chipIncomplete) chipIncomplete.addEventListener('click', ()=>{ state.catalogo.onlyIncomplete=false; render(); });
+}
+
+function catalogoClickHandler(e){
+  const c = state.catalogo;
+  const t = e.target.closest('[data-toggle],[data-filter][data-value],[data-mode-for],[data-clear],#btn-reset-filters,#cat-search-clear,.res-card,[data-faixa],[data-tipo]');
+  if(!t) return;
+
+  if(t.id==='cat-search-clear'){
+    c.search=''; render(); return;
+  }
+
+  if(t.matches('#btn-reset-filters')){
+    Object.values(c.filters).forEach(f=>{ f.selected = new Set(); f.search=''; });
+    c.onlyIncomplete = false; c.search=''; render(); return;
+  }
+  if(t.dataset.toggle){
+    const key = t.dataset.toggle;
+    const f = c.filters[key];
+    // fecha os outros pra deixar a tela mais limpa
+    Object.keys(c.filters).forEach(k=>{ if(k!==key) c.filters[k].open=false; });
+    f.open = !f.open;
+    refreshFiltersDOM();
+    return;
+  }
+  if(t.dataset.filter && t.dataset.value){
+    const key = t.dataset.filter;
+    const f = c.filters[key];
+    const v = t.dataset.value;
+    if(f.selected.has(v)) f.selected.delete(v); else f.selected.add(v);
+    // update apenas o botão clicado e o toggle pill; NÃO rebinda tudo
+    t.classList.toggle('checked');
+    updatePillFor(key);
+    ensureClearBtn(key);
+    updateResultsOnly();
+    return;
+  }
+  if(t.dataset.modeFor){
+    const key = t.dataset.modeFor;
+    c.filters[key].mode = t.dataset.mode;
+    // troca só os dois botões de modo
+    document.querySelectorAll(`[data-mode-for="${key}"]`).forEach(b=>b.classList.toggle('active', b.dataset.mode===t.dataset.mode));
+    updateResultsOnly();
+    return;
+  }
+  if(t.dataset.clear){
+    const key = t.dataset.clear;
+    c.filters[key].selected = new Set();
+    // refresh só desse painel + pill
+    refreshFiltersDOM();
+    updateResultsOnly();
+    return;
+  }
+  if(t.classList.contains('res-card')){
+    openDetailModal(t.dataset.id);
+  }
+}
+function catalogoInputHandler(e){
+  const t = e.target.closest('[data-panel-search],#cat-search');
+  if(!t) return;
+  if(t.id==='cat-search'){
+    state.catalogo.search = t.value;
+    updateResultsOnly();
+    toggleSearchClearBtn();
+    return;
+  }
+  const key = t.dataset.panelSearch;
+  const f = state.catalogo.filters[key];
+  f.search = t.value;
+  refreshChecklistFor(key);
+  t.focus();
+}
+function toggleSearchClearBtn(){
+  const c = state.catalogo;
+  const existing = document.getElementById('cat-search-clear');
+  if(c.search && !existing){
+    const wrap = document.querySelector('.search-wrap');
+    wrap.insertAdjacentHTML('beforeend', `<button class="search-clear" id="cat-search-clear" aria-label="Limpar">✕</button>`);
+  } else if(!c.search && existing){ existing.remove(); }
+}
+function refreshFiltersDOM(){
+  Object.keys(FILTER_DEFS).forEach(k=>{
+    const oldPill = document.querySelector(`[data-toggle="${k}"]`);
+    if(oldPill) oldPill.outerHTML = renderFilterToggleBtn(k);
+    const oldPanel = document.getElementById(`panel-${k}`);
+    if(oldPanel) oldPanel.outerHTML = renderFilterPanel(k);
+  });
+}
+function updatePillFor(key){
+  const pill = document.querySelector(`[data-toggle="${key}"]`);
+  if(pill) pill.outerHTML = renderFilterToggleBtn(key);
+}
+function ensureClearBtn(key){
+  const f = state.catalogo.filters[key];
+  const panelInner = document.querySelector(`#panel-${key} .filter-panel-inner`);
+  if(!panelInner) return;
+  const existing = panelInner.querySelector(`[data-clear="${key}"]`);
+  if(f.selected.size && !existing){
+    panelInner.insertAdjacentHTML('beforeend', `<button class="link-btn" data-clear="${key}">Limpar</button>`);
+  } else if(!f.selected.size && existing){
+    existing.remove();
+  }
+}
+function refreshChecklistFor(key){
+  const list = document.querySelector(`#panel-${key} .filter-checklist`);
+  if(!list) return;
+  const def = FILTER_DEFS[key];
+  const f = state.catalogo.filters[key];
+  const options = def.getOptions();
+  const q = normName(f.search);
+  const filtered = q ? options.filter(o=>normName(o).includes(q)) : options;
+  list.innerHTML = filtered.length ? filtered.map(o=>`
+    <button class="skill-check ${f.selected.has(o)?'checked':''}" data-filter="${key}" data-value="${esc(o)}">${esc(o)}</button>
+  `).join('') : `<span style="font-size:12px;color:var(--text-faint);">Nenhuma opção.</span>`;
+}
+
+function updateResultsOnly(){
+  const results = filteredRecursos();
+  const p = document.querySelector('.view-head p');
+  if(p) p.textContent = `${state.recursos.length} recurso(s) · ${results.length} exibido(s)`;
+  const container = document.getElementById('catalogo-results');
+  container.innerHTML = results.length ? results.map(r=>resourceCardHTML(r)).join('') : `
+    <div class="empty-state">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35" stroke-linecap="round"/></svg>
+      <p><strong>Nenhum recurso encontrado</strong></p>
+      <p>Ajuste os filtros ou o termo de busca.</p>
+    </div>`;
+}
+/* =====================================================================
+   CADASTRO / EDIÇÃO
+   ===================================================================== */
+function resetForm(){
+  state.editingId = null;
+  state.formSkills = [];
+  state.formObjetivos = [];
+}
+function loadFormFrom(r){
+  state.editingId = r.id;
+  state.formSkills = splitSkills(r.habilidades);
+  state.formObjetivos = splitObjetivos(r.objetivo);
+}
+
+/* Campo com um único valor: input livre + lista clicável abaixo.
+   Clicar seleciona/desmarca; digitar filtra a lista. */
+function renderPickerField(id, label, currentValue, options, placeholder){
+  return `
+    <div class="form-row">
+      <label>${esc(label)}</label>
+      <input type="text" id="${id}" placeholder="${esc(placeholder)}" value="${esc(currentValue)}" data-picker-single="${id}">
+      <div class="suggest-list" id="suggest-${id}">
+        ${options.length ? options.map(o=>`<button type="button" class="skill-check ${normName(o)===normName(currentValue)?'checked':''}" data-pick-single="${id}" data-value="${esc(o)}">${esc(o)}</button>`).join('') : `<span class="empty-hint">Nenhuma opção cadastrada ainda — digite para criar a primeira.</span>`}
+      </div>
+    </div>
+  `;
+}
+
+/* Campo com múltiplos valores: chips fixos + input + lista clicável.
+   stateKey = 'formSkills' | 'formObjetivos'. */
+function renderChipField(id, label, stateKey, options, placeholder, hint){
+  const values = state[stateKey];
+  return `
+    <div class="form-row">
+      <label>${esc(label)}</label>
+      <div class="chip-input-wrap" data-chip-wrap="${stateKey}">
+        ${values.map((v,i)=>`<span class="chip-editable" data-chip-index="${i}">${esc(v)}<button type="button" data-chip-remove="${stateKey}" data-i="${i}" aria-label="Remover">✕</button></span>`).join('')}
+        <input type="text" id="${id}" data-chip-input="${stateKey}" placeholder="${values.length?'Adicionar…':esc(placeholder)}">
+      </div>
+      <div class="suggest-list" id="suggest-${id}">
+        ${options.length ? options.map(o=>`<button type="button" class="skill-check ${values.some(v=>normName(v)===normName(o))?'checked':''}" data-pick-multi="${stateKey}" data-value="${esc(o)}">${esc(o)}</button>`).join('') : `<span class="empty-hint">Nenhuma opção cadastrada ainda — digite para criar a primeira.</span>`}
+      </div>
+      <p class="form-hint">${esc(hint)}</p>
+    </div>
+  `;
+}
+
+function renderCadastro(){
+  const editing = state.editingId ? state.recursos.find(r=>r.id===state.editingId) : null;
+  const tipoOptions = [...new Set([...TIPOS_PADRAO, ...getAllTipos()])].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+  const faixaOptions = getAllFaixas();
+  const objetivoOptions = getAllObjetivos();
+  const skillOptions = getAllSkills();
+
+  return `
+    <div class="view-head compact">
+      <h2>${editing ? 'Editar recurso' : 'Cadastrar recurso'}</h2>
+      <p>${editing ? 'Atualize as informações abaixo.' : 'Preencha os dados do novo material.'}</p>
+    </div>
+
+    <div class="card form-card">
+      <div class="form-row">
+        <label>Nome do recurso *</label>
+        <input type="text" id="f-nome" placeholder="Ex: Trinca das emoções" value="${esc(editing?.nome||'')}">
+      </div>
+
+      ${renderPickerField('f-tipo', 'Tipo de recurso *', editing?.tipo||'', tipoOptions, 'Digite ou escolha abaixo…')}
+
+      <div class="form-row">
+        <label>Descrição</label>
+        <textarea id="f-descricao" placeholder="O que é o material e como funciona…">${esc(editing?.descricao||'')}</textarea>
+      </div>
+
+      ${renderPickerField('f-faixa', 'Faixa etária', editing?.faixaEtaria||'', faixaOptions, 'Digite ou escolha abaixo…')}
+
+      ${renderChipField('f-obj-add', 'Objetivo(s) terapêutico(s)', 'formObjetivos', objetivoOptions,
+        'Digite e pressione Enter, ou clique abaixo',
+        'Cada item é um objetivo separado. Clique em quantos quiser ou digite um novo e pressione Enter.')}
+
+      ${renderChipField('f-skill-add', 'Habilidades trabalhadas', 'formSkills', skillOptions,
+        'Digite e pressione Enter, ou clique abaixo',
+        'Clique em quantas habilidades quiser ou digite uma nova e pressione Enter.')}
+
+      <div class="form-actions">
+        ${editing ? `<button class="btn btn-danger" id="btn-delete-recurso">Excluir</button>` : ''}
+        <button class="btn btn-primary" id="btn-save-recurso">${editing ? 'Salvar' : 'Cadastrar'}</button>
+      </div>
+      ${editing ? `<button class="link-btn" id="btn-cancel-edit" style="margin-top:10px;">Cancelar edição</button>` : ''}
+    </div>
+  `;
+}
+
+/* Handlers via delegação, sem rebindar tudo a cada clique. */
+function bindCadastroEvents(){
+  // Listeners globais cuidam de click/input/keydown via delegação (registrados uma vez no document).
+  // Nada a fazer aqui além de possível foco inicial.
+}
+
+function cadastroClickHandler(e){
+  const t = e.target.closest('[data-pick-single],[data-pick-multi],[data-chip-remove],#btn-save-recurso,#btn-delete-recurso,#btn-cancel-edit');
+  if(!t) return;
+
+  // seleção de valor único (tipo, faixa)
+  if(t.dataset.pickSingle){
+    const id = t.dataset.pickSingle;
+    const input = document.getElementById(id);
+    const alreadySelected = normName(input.value)===normName(t.dataset.value) && input.value.trim()!=='';
+    input.value = alreadySelected ? '' : t.dataset.value;
+    document.querySelectorAll(`[data-pick-single="${id}"]`).forEach(b=>{
+      b.classList.toggle('checked', !alreadySelected && b===t);
+    });
+    return;
+  }
+
+  // seleção de valor múltiplo (objetivo, habilidade)
+  if(t.dataset.pickMulti){
+    const key = t.dataset.pickMulti;
+    const v = t.dataset.value;
+    const idx = state[key].findIndex(x=>normName(x)===normName(v));
+    if(idx>=0) state[key].splice(idx,1); else state[key].push(v);
+    refreshChipFieldDOM(key);
+    return;
+  }
+
+  // remoção de chip
+  if(t.dataset.chipRemove){
+    const key = t.dataset.chipRemove;
+    const i = parseInt(t.dataset.i,10);
+    state[key].splice(i,1);
+    refreshChipFieldDOM(key);
+    return;
+  }
+
+  if(t.id==='btn-save-recurso'){ saveRecursoFromForm(); return; }
+  if(t.id==='btn-delete-recurso'){
+    const r = state.recursos.find(x=>x.id===state.editingId);
+    confirmModal(`Excluir "${r.nome}"?`, 'Essa ação não pode ser desfeita.', ()=>{
+      state.api.remove(state.editingId)
+        .then(()=>{ toast('Recurso excluído.', 'ok'); resetForm(); setView('catalogo'); })
+        .catch(e=>{ console.error(e); toast('Erro ao excluir.', 'err'); });
+    });
+    return;
+  }
+  if(t.id==='btn-cancel-edit'){ resetForm(); render(); }
+}
+
+function cadastroInputHandler(e){
+  const t = e.target;
+  // Filtragem de sugestões conforme digita:
+  if(t.matches('[data-picker-single]')){
+    const id = t.dataset.pickerSingle;
+    const q = normName(t.value);
+    document.querySelectorAll(`[data-pick-single="${id}"]`).forEach(btn=>{
+      btn.style.display = (!q || normName(btn.dataset.value).includes(q)) ? '' : 'none';
+      btn.classList.toggle('checked', normName(btn.dataset.value)===normName(t.value) && t.value.trim()!=='');
+    });
+  }
+  if(t.matches('[data-chip-input]')){
+    const key = t.dataset.chipInput;
+    const q = normName(t.value);
+    document.querySelectorAll(`[data-pick-multi="${key}"]`).forEach(btn=>{
+      btn.style.display = (!q || normName(btn.dataset.value).includes(q)) ? '' : 'none';
+    });
+  }
+}
+
+function cadastroKeydownHandler(e){
+  const t = e.target;
+  if(!t.matches('[data-chip-input]')) return;
+  if(e.key==='Enter' || e.key===','){
+    e.preventDefault();
+    const key = t.dataset.chipInput;
+    const v = t.value.trim().replace(/;$/,'');
+    if(v && !state[key].some(s=>normName(s)===normName(v))){
+      state[key].push(v);
+      t.value='';
+      refreshChipFieldDOM(key);
+      document.querySelector(`[data-chip-input="${key}"]`)?.focus();
+    } else {
+      t.value='';
+    }
+  }
+}
+
+/* Redesenha apenas os chips e os botões de sugestão do campo, sem tocar em outros campos.
+   Preserva os valores dos <input>/<textarea> de outros campos (nenhum é substituído). */
+function refreshChipFieldDOM(stateKey){
+  const wrap = document.querySelector(`[data-chip-wrap="${stateKey}"]`);
+  if(!wrap) return;
+  const input = wrap.querySelector(`[data-chip-input="${stateKey}"]`);
+  const inputHTML = input.outerHTML;
+  const values = state[stateKey];
+  wrap.innerHTML = values.map((v,i)=>`<span class="chip-editable" data-chip-index="${i}">${esc(v)}<button type="button" data-chip-remove="${stateKey}" data-i="${i}" aria-label="Remover">✕</button></span>`).join('') + inputHTML;
+  // atualizar 'checked' das sugestões
+  document.querySelectorAll(`[data-pick-multi="${stateKey}"]`).forEach(btn=>{
+    btn.classList.toggle('checked', values.some(v=>normName(v)===normName(btn.dataset.value)));
+  });
+}
+
+function saveRecursoFromForm(){
+  const nome = document.getElementById('f-nome').value.trim();
+  const tipo = document.getElementById('f-tipo').value.trim();
+  if(!nome){ toast('Informe o nome do recurso.', 'err'); return; }
+  if(!tipo){ toast('Informe o tipo de recurso.', 'err'); return; }
+  // valores pendentes nos inputs de chip
+  const pendSkill = document.getElementById('f-skill-add')?.value.trim();
+  if(pendSkill && !state.formSkills.some(s=>normName(s)===normName(pendSkill))) state.formSkills.push(pendSkill);
+  const pendObj = document.getElementById('f-obj-add')?.value.trim();
+  if(pendObj && !state.formObjetivos.some(s=>normName(s)===normName(pendObj))) state.formObjetivos.push(pendObj);
+
+  const data = {
+    nome, tipo,
+    descricao: document.getElementById('f-descricao').value.trim(),
+    faixaEtaria: document.getElementById('f-faixa').value.trim(),
+    objetivo: state.formObjetivos.join('; '),
+    habilidades: state.formSkills.join('; '),
+    atualizadoEm: state.api.timestamp(),
+    atualizadoPor: localStorage.getItem(LS_KEYS.name)||'',
+  };
+  const userName = localStorage.getItem(LS_KEYS.name)||'';
+  const saveBtn = document.getElementById('btn-save-recurso');
+  saveBtn.disabled = true; saveBtn.style.opacity = '.6';
+
+  if(state.editingId){
+    state.api.update(state.editingId, data)
+      .then(()=>{ toast('Recurso atualizado.', 'ok'); resetForm(); setView('catalogo'); })
+      .catch(e=>{ console.error(e); toast('Erro ao salvar.', 'err'); saveBtn.disabled=false; saveBtn.style.opacity='1'; });
+  } else {
+    data.criadoEm = state.api.timestamp();
+    data.criadoPor = userName;
+    state.api.add(data)
+      .then(()=>{ toast('Recurso cadastrado!', 'ok'); resetForm(); setView('catalogo'); })
+      .catch(e=>{ console.error(e); toast('Erro ao cadastrar.', 'err'); saveBtn.disabled=false; saveBtn.style.opacity='1'; });
+  }
+}
+/* =====================================================================
+   MODAL: detalhe de recurso
+   ===================================================================== */
+function openDetailModal(id){
+  const r = state.recursos.find(x=>x.id===id);
+  if(!r) return;
+  const root = document.getElementById('modal-root');
+  root.innerHTML = `
+    <div class="modal-overlay" id="detail-overlay">
+      <div class="modal-sheet">
+        <div class="modal-head">
+          <h3>${esc(r.nome)}</h3>
+          <button class="modal-close" id="detail-close">✕</button>
+        </div>
+        <span class="tipo-tag" style="background:${tipoColorInline(r.tipo)}55;color:var(--navy-dark);display:inline-block;margin-bottom:16px;">${esc(r.tipo||'Sem tipo')}</span>
+
+        <div class="detail-field ${!r.descricao?'empty':''}">
+          <b>Descrição</b>
+          <span>${esc(r.descricao) || 'Não preenchida'}</span>
+        </div>
+        <div class="detail-field ${!r.faixaEtaria?'empty':''}">
+          <b>Faixa etária</b>
+          <span>${esc(r.faixaEtaria) || 'Não preenchida'}</span>
+        </div>
+        <div class="detail-field ${!r.objetivo?'empty':''}">
+          <b>Objetivo${splitObjetivos(r.objetivo).length>1?'s':''} terapêutico${splitObjetivos(r.objetivo).length>1?'s':''}</b>
+          ${splitObjetivos(r.objetivo).length ? `<div class="skills-row" style="margin-top:4px;">${splitObjetivos(r.objetivo).map(o=>`<span class="skill-tag obj-tag">${esc(o)}</span>`).join('')}</div>` : `<span>Não preenchido</span>`}
+        </div>
+        <div class="detail-field ${!r.habilidades?'empty':''}">
+          <b>Habilidades trabalhadas</b>
+          ${splitSkills(r.habilidades).length ? `<div class="skills-row" style="margin-top:4px;">${splitSkills(r.habilidades).map(s=>`<span class="skill-tag">${esc(s)}</span>`).join('')}</div>` : `<span>Não preenchidas</span>`}
+        </div>
+        ${r.criadoPor ? `<div class="detail-field"><b>Cadastrado por</b><span>${esc(r.criadoPor)} · ${timeAgo(r.criadoEm)}</span></div>` : ''}
+
+        <div class="form-actions">
+          <button class="btn btn-soft" id="detail-edit">Editar</button>
+          <button class="btn btn-danger" id="detail-delete">Excluir</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('detail-overlay').addEventListener('click', e=>{ if(e.target.id==='detail-overlay') closeModal(); });
+  document.getElementById('detail-close').addEventListener('click', closeModal);
+  document.getElementById('detail-edit').addEventListener('click', ()=>{
+    closeModal();
+    loadFormFrom(r);
+    setView('cadastrar', false);
+  });
+  document.getElementById('detail-delete').addEventListener('click', ()=>{
+    confirmModal(`Excluir "${r.nome}"?`, 'Essa ação não pode ser desfeita.', ()=>{
+      state.api.remove(r.id)
+        .then(()=>{ toast('Recurso excluído.', 'ok'); closeModal(); })
+        .catch(e=>{ console.error(e); toast('Erro ao excluir.', 'err'); });
+    });
+  });
+}
+function closeModal(){ document.getElementById('modal-root').innerHTML=''; }
+
+function confirmModal(title, sub, onConfirm){
+  const root = document.getElementById('modal-root');
+  const wrap = document.createElement('div');
+  wrap.className = 'modal-overlay center';
+  wrap.innerHTML = `
+    <div class="modal-sheet" style="max-width:360px;text-align:center;">
+      <h3 style="margin-bottom:6px;">${esc(title)}</h3>
+      <p style="color:var(--text-soft);font-size:13px;margin-bottom:20px;">${esc(sub)}</p>
+      <div class="form-actions">
+        <button class="btn btn-soft" id="confirm-cancel">Cancelar</button>
+        <button class="btn btn-danger" id="confirm-ok">Confirmar</button>
+      </div>
+    </div>
+  `;
+  root.appendChild(wrap);
+  wrap.addEventListener('click', e=>{ if(e.target===wrap) wrap.remove(); });
+  wrap.querySelector('#confirm-cancel').addEventListener('click', ()=>wrap.remove());
+  wrap.querySelector('#confirm-ok').addEventListener('click', ()=>{ wrap.remove(); onConfirm(); });
+}
+
+/* =====================================================================
+   MODAL: configurações
+   ===================================================================== */
+function openSettingsModal(){
+  const root = document.getElementById('modal-root');
+  const name = localStorage.getItem(LS_KEYS.name) || '';
+  const isCloud = !!FIREBASE_CONFIG;
+  root.innerHTML = `
+    <div class="modal-overlay" id="settings-overlay">
+      <div class="modal-sheet">
+        <div class="modal-head">
+          <h3>Configurações</h3>
+          <button class="modal-close" id="settings-close">✕</button>
+        </div>
+
+        <div class="form-row">
+          <label>Seu nome</label>
+          <input type="text" id="set-name" placeholder="Como você quer ser chamado(a)" value="${esc(name)}">
+        </div>
+
+        <div class="form-row" style="margin-top:4px;">
+          <label>Modo de armazenamento</label>
+          <div class="chip" style="background:${isCloud?'var(--blue)':'var(--orange)'};border:none;font-size:12.5px;">
+            ${isCloud ? '☁️ Nuvem (Firebase) — sincronizado entre dispositivos' : '📱 Local neste aparelho'}
+          </div>
+        </div>
+
+        <div class="form-actions" style="margin-top:16px;">
+          <button class="btn btn-primary btn-block" id="settings-save">Salvar</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('settings-overlay').addEventListener('click', e=>{ if(e.target.id==='settings-overlay') closeModal(); });
+  document.getElementById('settings-close').addEventListener('click', closeModal);
+  document.getElementById('settings-save').addEventListener('click', ()=>{
+    const newName = document.getElementById('set-name').value.trim();
+    if(newName) localStorage.setItem(LS_KEYS.name, newName);
+    closeModal();
+    toast('Configurações salvas.', 'ok');
+    render();
+  });
+}
+
+/* =====================================================================
+   IMPORTAR — planilha (XLSX/CSV) com checagem de duplicidade
+   ===================================================================== */
+/* Catálogo inicial extraído da planilha da clínica (sem as colunas padronizadas) */
+const SEED_RECURSOS = [{"nome":"Sou não sou","tipo":"Jogo Terapêutico","descricao":"260 cartas com características pessoais para promover o autoconhecimento (\"sou, mas não gostaria de ser\" ou \"não sou, mas gostaria de ser\")","faixaEtaria":"Acima de 8 anos","objetivo":"Autoconhecimento","habilidades":"Autopercepção; Autoimagem; Linguagem expressiva; Reflexão"},{"nome":"Estilos Parentais pela visão dos filhos","tipo":"Baralho","descricao":"50 cartas que provocam reflexões na relação parental que a criança contextualiza em suas vivências","faixaEtaria":"A partir de 12 anos","objetivo":"Parentalidade","habilidades":"Reflexão sobre relações familiares; Comunicação; Expressão emocional; Autopercepção"},{"nome":"Ansiedade Infantil","tipo":"Baralho","descricao":"40 perguntas e atividades para ajudar a criança a lidar com suas inquietações","faixaEtaria":"A partir de 7 anos","objetivo":"Manejo da ansiedade","habilidades":"Identificação de emoções; Regulação emocional; Estratégias de enfrentamento; Resolução de problemas"},{"nome":"Pensamentos e emoções","tipo":"Baralho","descricao":"40 questões para ajudar a criança a expressar o que sente; O material auxilia terapeutas a sondarem sentimentos sobre escola, família, medos e expectativas através de frases para completar","faixaEtaria":"De 7 a 12 anos","objetivo":"Sentimentos sobre escola, família, medos e expectativas","habilidades":"Identificação de emoções; Expressão emocional; Linguagem expressiva; Autoconhecimento"},{"nome":"Puxa conversa escola","tipo":"Baralho","descricao":"100 perguntas para os alunos falarem do ambiente escolar","faixaEtaria":"Crianças e adolescentes","objetivo":"Exploração de demandas","habilidades":"Expressão verbal; Comunicação; Reflexão sobre vivências escolares; Autoconhecimento"},{"nome":"Tipo assim...","tipo":"Baralho","descricao":"100 perguntas para a terapia do adolescente (ajudar a identificar o sofrimento psicológico e o comportamento desajustado)","faixaEtaria":"Adolescente","objetivo":"Exploração de demandas","habilidades":"Autoconhecimento; Expressão emocional; Reflexão; Comunicação"},{"nome":"Quem é você?","tipo":"Baralho","descricao":"100 perguntas para aprimorar o autoconhecimento e planejar o futuro","faixaEtaria":"Crianças e adolescentes","objetivo":"Exploração de demandas","habilidades":"Autopercepção; Projeto de vida; Valores pessoais; Reflexão"},{"nome":"Disciplina Positiva para educar os filhos","tipo":"Baralho","descricao":"52 estratégias para melhorar as habilidades de mães e pais","faixaEtaria":"Pais","objetivo":"Parentalidade","habilidades":"Comunicação; Resolução de problemas; Práticas parentais positivas"},{"nome":"Consequências","tipo":"Baralho","descricao":"50 questões para a criança refletir sobre responsabilidade e organização","faixaEtaria":"A partir de 7 anos","objetivo":"Tomada de decisão","habilidades":"Responsabilidade; Planejamento; Resolução de problemas"},{"nome":"TDAH - Identificando, Dimensionando e Intervindo","tipo":"Baralho","descricao":"140 cartas: 2 capítulos (18 sobre identificação dos critérios diagnósticos e 122 cartas-interventivas realacionadas ao fundamento comportamental, emocional, escolar, social e familiar do transtorno na vida)","faixaEtaria":"Crianças e adolescentes","objetivo":"Psicoeducação e intervenção no TDAH","habilidades":"Autopercepção; Organização; Atenção; Planejamento; Autorregulação; Resolução de problemas"},{"nome":"Adolescentes: cartas terapêuticas","tipo":"Baralho","descricao":"Baralho terapêutico com afirmações e perguntas voltadas à adolescência, utilizado para facilitar o diálogo, explorar demandas, emoções, conflitos, pensamentos e experiências, promovendo autoconhecimento e auxiliando na identificação de temas relevantes para o processo psicoterapêutico.","faixaEtaria":"Adolescente","objetivo":"Exploração de demandas; Autoconhecimento","habilidades":"Autoconhecimento; Expressão emocional; Comunicação; Reflexão"},{"nome":"Cara de quê?","tipo":"Baralho","descricao":"Reconhecimento de emoções a partir de expressões faciais","faixaEtaria":"De 3 a 10 anos","objetivo":"Identificação de emoções","habilidades":"Reconhecimento de expressões faciais; Identificação de emoções; Percepção visual"},{"nome":"Frases com erros","tipo":"Baralho","descricao":"100 desafios de gramática para crianças","faixaEtaria":"Crianças","objetivo":"Leitura e escrita (consciência sintática, morfologia e sintaxe)","habilidades":"Consciência sintática; Morfologia; Sintaxe; Atenção"},{"nome":"Expressões faciais","tipo":"Baralho","descricao":"40 frases para completar escolhendo a imagem de um rosto","faixaEtaria":"De 7 a 11 anos","objetivo":"Identificação de emoções","habilidades":"Reconhecimento de expressões faciais; Identificação de emoções; Linguagem expressiva"},{"nome":"Linha do Tempo","tipo":"Baralho","descricao":"100 perguntas para organizar as lembranças, resgatar as emoções e entender a sua história; Baralho com 100 perguntas que auxiliam na construção da linha do tempo de vida, favorecendo o resgate de lembranças, a organização da história pessoal e a elaboração de experiências significativas.","faixaEtaria":"Adolescentes, adultos e idosos","objetivo":"Autoconhecimento; Elaboração emocional","habilidades":"Memória autobiográfica; Organização temporal; Linguagem expressiva; Reflexão; Elaboração emocional; Orientação temporal"},{"nome":"Tira e põe sílaba","tipo":"Baralho","descricao":"Some ou subtraia uma sílaba e procure a imagem com a palavra que se formou","faixaEtaria":"Crianças, adolescentes, adultos e idosos","objetivo":"Leitura e escrita (consciência silábica)","habilidades":"Consciência fonológica; Consciência silábica; Atenção"},{"nome":"Puxa conversa anime","tipo":"Baralho","descricao":"Baralho com 100 perguntas inspiradas em animes que promovem reflexões sobre experiências pessoais, emoções, valores, relacionamentos e crescimento pessoal, favorecendo o diálogo e o autoconhecimento.","faixaEtaria":"Adolescentes e adultos","objetivo":"Autoconhecimento; Elaboração emocional","habilidades":"Reflexão; Valores pessoais; Expressão emocional; Comunicação"},{"nome":"TOC infantil","tipo":"Baralho","descricao":"Baralho com 50 frases para serem completadas pela criança ou adolescente, auxiliando na identificação de sinais e comportamentos sugestivos de Transtorno Obsessivo-Compulsivo (TOC) e direcionando a avaliação e o planejamento de intervenções terapêuticas.","faixaEtaria":"A partir de 4 anos","objetivo":"Psicoeducação e rastreio de TOC","habilidades":"Identificação de pensamentos; Autopercepção; Expressão emocional; Psicoeducação"},{"nome":"Técnicas em Terapia do Esquema","tipo":"Baralho","descricao":"Baralho com 100 cards baseados na Terapia do Esquema, contendo técnicas e estratégias para identificar e atender necessidades emocionais básicas, enfraquecer esquemas desadaptativos e fortalecer padrões cognitivos e emocionais mais saudáveis.","faixaEtaria":"Adolescentes (a partir de 16 anos)","objetivo":"Terapia do Esquema","habilidades":"Identificação de necessidades emocionais; Autoconhecimento; Regulação emocional; Psicoeducação"},{"nome":"Inventando diálogos - Turma da Mônica","tipo":"Baralho","descricao":"Baralho com 40 cartas ilustradas organizadas em sequências de histórias, que estimula a organização temporal dos acontecimentos, a criação de diálogos e o desenvolvimento da narrativa, da linguagem e da criatividade.","faixaEtaria":"A partir de 3 anos","objetivo":"Linguagem e comunicação","habilidades":"Linguagem expressiva; Narrativa; Criatividade; Comunicação; Organização temporal"},{"nome":"Brincando de Mindfullness","tipo":"Baralho","descricao":"Baralho com 50 exercícios lúdicos de mindfulness para crianças, desenvolvido para promover a atenção plena, favorecer a autorregulação e auxiliar na redução do estresse e da ansiedade por meio de práticas simples e acessíveis.","faixaEtaria":"A partir de 3 anos","objetivo":"Mindfulness; Regulação emocional","habilidades":"Atenção sustentada; Autorregulação; Regulação emocional; Consciência corporal; Consciência emocional; Flexibilidade atencional"},{"nome":"Coloque na ordem","tipo":"Baralho","descricao":"Baralho com sequências de imagens que desafiam a criança a organizar os acontecimentos em ordem lógica e construir uma história com começo, meio e fim, estimulando a narrativa e o raciocínio sequencial.","faixaEtaria":"A partir de 3 anos","objetivo":"Linguagem e comunicação","habilidades":"Narrativa; Organização temporal; Planejamento; Linguagem expressiva; Sequenciamento; Raciocínio lógico"},{"nome":"Quem falou isso?","tipo":"Baralho","descricao":"Baralho com cartas de falas e ilustrações que desafiam a criança a relacionar cada balão de diálogo ao personagem correspondente, estimulando a compreensão da linguagem, a interpretação e a realização de inferências a partir do contexto.","faixaEtaria":"A partir de 7 anos","objetivo":"Linguagem e comunicação","habilidades":"Compreensão leitora; Inferência; Linguagem receptiva; Atenção; Percepção visual; Cognição social"},{"nome":"Técnicas e recursos terapêuticos","tipo":"Baralho","descricao":"Baralho com 100 técnicas e estratégias para facilitar o diálogo com crianças e adolescentes, promovendo a expressão de pensamentos, emoções e vivências, além de favorecer o vínculo terapêutico e a exploração de demandas clínicas.","faixaEtaria":"Crianças e adolescentes","objetivo":"Exploração de demandas; Construção de vínculo","habilidades":"Comunicação; Linguagem expressiva; Autoconhecimento; Expressão emocional; Reflexão"},{"nome":"Trio de Rimas","tipo":"Baralho","descricao":"Baralho que desafia a criança a identificar e agrupar palavras que rimam, favorecendo o desenvolvimento da consciência fonológica de forma lúdica por meio da associação entre imagens.","faixaEtaria":"A partir de 4 anos","objetivo":"Leitura e escrita (consciência fonológica)","habilidades":"Consciência fonológica; Rimas; Discriminação auditiva; Atenção; Associação semântica"},{"nome":"Brincando de memorizar","tipo":"Baralho","descricao":"Baralho com cenas ilustradas e perguntas relacionadas, desenvolvido para estimular a memória por meio da observação de detalhes, favorecendo o processamento visual e a evocação de informações de forma lúdica.","faixaEtaria":"A partir de 4 anos","objetivo":"Memória de curto prazo","habilidades":"Memória de curto prazo; Atenção; Percepção visual; Organização visuoespacial; Evocação; Planejamento"},{"nome":"Qual é a pergunta?","tipo":"Baralho","descricao":"Baralho com 40 cenas ilustradas que desafiam a criança a imaginar e formular perguntas a partir das situações apresentadas, estimulando a linguagem, a criatividade e a interpretação de contextos sociais.","faixaEtaria":"A partir de 4 anos","objetivo":"Linguagem e comunicação","habilidades":"Linguagem expressiva; Inferência; Criatividade; Comunicação; Cognição social"},{"nome":"Caixinha de dedução e lógica","tipo":"Baralho","descricao":"Baralho com situações ilustradas da Turma da Mônica que desafiam a criança a completar frases e responder perguntas utilizando pistas do contexto, estimulando o raciocínio lógico, a interpretação e a realização de inferências.","faixaEtaria":"A partir de 4 anos","objetivo":"Linguagem e comunicação","habilidades":"Inferência; Raciocínio lógico; Linguagem expressiva; Compreensão oral; Resolução de problemas"},{"nome":"Trinca das emoções","tipo":"Baralho","descricao":"Jogo terapêutico composto por cartas de emoções, pensamentos e ações, utilizado para favorecer o reconhecimento, a expressão e a regulação emocional, além de auxiliar na identificação de crenças e padrões de pensamento no contexto psicoterapêutico.","faixaEtaria":"A partir de 7 anos","objetivo":"Regulação emocional","habilidades":"Identificação de emoções; Expressão emocional; Regulação emocional; Identificação de pensamentos; Reestruturação cognitiva; Autoconhecimento"},{"nome":"Perfil express: Filmes e séries","tipo":"Jogo","descricao":"Jogo de dedução com cartas contendo dicas progressivas sobre filmes e séries, no qual os participantes utilizam pistas para identificar a resposta correta, estimulando o raciocínio e a recuperação de conhecimentos prévios.","faixaEtaria":"Adolescente","objetivo":"Memória semântica","habilidades":"Inferência; Raciocínio lógico; Memória semântica; Atenção; Flexibilidade cognitiva; Resolução de problemas"},{"nome":"Pictionary - Pic Tato - Batata quente para adivinhar e passar","tipo":"Jogo","descricao":"Jogo de desenho em ritmo acelerado no qual os participantes representam palavras por meio de ilustrações para que os demais as adivinhem antes do tempo acabar, estimulando comunicação, raciocínio e agilidade cognitiva.","faixaEtaria":"A partir de 8 anos","objetivo":"Linguagem e comunicação","habilidades":"Linguagem expressiva; Acesso lexical; Comunicação; Criatividade; Velocidade de processamento; Atenção"},{"nome":"Organizando a bagunça infantil","tipo":"Jogo Terapêutico Cognos","descricao":"Atividade ecológica desenvolvida para estimular a nomeação, categorização, organização e flexibilidade cognitiva","faixaEtaria":"De 5 a 16 anos","objetivo":"Funções executivas","habilidades":"Categorização; Organização; Flexibilidade cognitiva; Nomeação; Planejamento"},{"nome":"AUTO Consciência","tipo":"Jogo Terapêutico Cognos","descricao":"Esclarecer sobre o diagnóstico de TDAH e estimular a autoconsciência e autopercepção","faixaEtaria":"Adolescentes, adultos e idosos (12-99 anos)","objetivo":"Psicoeducação em TDAH","habilidades":"Autoconhecimento; Autopercepção; Metacognição; Autorregulação"},{"nome":"Classificados","tipo":"Jogo Terapêutico Cognos","descricao":"Estimula capacidades de concentração, seleção do estímulo alvo e rastreio visual através da busca de informações corretas de um jornal de classificados","faixaEtaria":"Crianças, adolescentes, adultos e idosos (9-99 anos)","objetivo":"Estimulação cognitiva","habilidades":"Atenção seletiva; Atenção sustentada; Rastreio visual; Velocidade de processamento"},{"nome":"Fique frio","tipo":"Jogo Terapêutico Cognos","descricao":"Atividade desenvolvida para saber manejar estresse, voltada para crianças com distúrbios do processamento sensorial, TEA, TDAH, AH/SD e crianças sensíveis","faixaEtaria":"Crianças e adolescentes (6-15 anos)","objetivo":"Regulação emocional","habilidades":"Identificação de emoções; Regulação emocional; Estratégias de enfrentamento; Flexibilidade cognitiva; Linguagem expressiva"},{"nome":"Estabelecendo prioridades infantil","tipo":"Jogo Terapêutico Cognos","descricao":"O participante deverá organizar e priorizar as ações necessárias para atingir uma determinada meta","faixaEtaria":"Crianças e adolescentes (7-14 anos)","objetivo":"Funções executivas","habilidades":"Planejamento; Organização; Priorização; Resolução de problemas; Flexibilidade cognitiva"},{"nome":"Heróis da mente","tipo":"Jogo Terapêutico","descricao":"O Programa Heróis da Mente é um Programa de Estimulação das Funções Executivas e tem por objetivo estimular práticas para o desenvolvimento das funções executivas em sala de aula.","faixaEtaria":"De 7 a 10 anos","objetivo":"Funções executivas","habilidades":"Planejamento; Organização; Memória de trabalho; Controle inibitório; Flexibilidade cognitiva; Autorregulação; Identificação de emoções"},{"nome":"Sacudidos","tipo":"Jogo Terapêutico","descricao":"Jogo terapêutico de tabuleiro que utiliza situações do cotidiano para ensinar estratégias de resolução de problemas e promover o desenvolvimento de habilidades sociais, comunicação assertiva e manejo de conflitos em crianças.","faixaEtaria":"De 7 a 12 anos","objetivo":"Habilidades sociais","habilidades":"Resolução de problemas; Comunicação assertiva; Flexibilidade cognitiva; Tomada de decisão; Identificação de emoções; Regulação emocional"},{"nome":"Armadilhas","tipo":"Jogo Terapêutico","descricao":"Jogo terapêutico com cartas de risco e proteção que auxilia adolescentes a identificar fatores de vulnerabilidade e proteção, favorecendo a reflexão, a tomada de decisões e o desenvolvimento de estratégias de enfrentamento diante de situações de risco.","faixaEtaria":"Adolescentes","objetivo":"Psicoeducação; Prevenção de comportamentos de risco","habilidades":"Tomada de decisão; Resolução de problemas; Identificação de pensamentos; Identificação de emoções; Estratégias de enfrentamento; Reflexão; Autoconhecimento"},{"nome":"Arremedo","tipo":"Jogo Terapêutico","descricao":"Jogo terapêutico que utiliza cartas ilustradas e técnicas de exposição gradual para auxiliar crianças a enfrentar medos e reduzir respostas de ansiedade de forma lúdica e segura.","faixaEtaria":"De 6 a 12 anos","objetivo":"Manejo da ansiedade","habilidades":"Identificação de emoções; Regulação emocional; Estratégias de enfrentamento; Tolerância ao desconforto; Psicoeducação"},{"nome":"Segura a onda","tipo":"Jogo Terapêutico","descricao":"Jogo terapêutico em formato de quebra-cabeça que ensina estratégias de enfrentamento para auxiliar crianças a lidar com a ansiedade, o medo e as preocupações, favorecendo respostas mais adaptativas diante de situações ansiogênicas.","faixaEtaria":"De 6 a 12 anos","objetivo":"Manejo da ansiedade","habilidades":"Regulação emocional; Estratégias de enfrentamento; Resolução de problemas; Flexibilidade cognitiva; Relaxamento"},{"nome":"Tabuleiro da ansiedade","tipo":"Jogo Terapêutico","descricao":"Jogo terapêutico baseado na Terapia Cognitivo-Comportamental (TCC) que auxilia na compreensão da ansiedade por meio da exploração de reações emocionais, sensações fisiológicas, comportamentos, situações ansiogênicas e distorções cognitivas, favorecendo a psicoeducação e o planejamento de intervenções.","faixaEtaria":"Adolescentes e adultos","objetivo":"Psicoeducação; Manejo da ansiedade","habilidades":"Identificação de emoções; Identificação de pensamentos; Autoconhecimento; Reestruturação cognitiva; Estratégias de enfrentamento"},{"nome":"Raciocínio clínico em Terapia do Esquema","tipo":"Jogo Terapêutico","descricao":"Recurso terapêutico baseado na Terapia do Esquema que auxilia na compreensão das necessidades emocionais básicas, dos esquemas iniciais desadaptativos, dos estilos de enfrentamento e dos modos esquemáticos, favorecendo o raciocínio clínico e a conceitualização de caso.","faixaEtaria":"Adolescentes, adultos e idosos","objetivo":"Terapia do Esquema","habilidades":"Autoconhecimento; Identificação de necessidades emocionais; Identificação de pensamentos; Identificação de padrões de comportamento; Reflexão; Psicoeducação"},{"nome":"Conhecendo as necessidades emocionais na infância","tipo":"Jogo Terapêutico","descricao":"Jogo terapêutico baseado na Terapia do Esquema que utiliza uma dinâmica de jogo da memória para ensinar crianças e seus responsáveis sobre as necessidades emocionais básicas, favorecendo a identificação de necessidades atendidas ou frustradas e o planejamento de estratégias para promovê-las no contexto familiar.","faixaEtaria":"A partir de 4 anos","objetivo":"Terapia do Esquema","habilidades":"Identificação de necessidades emocionais; Identificação de emoções; Autoconhecimento; Psicoeducação; Comunicação familiar; Reflexão"},{"nome":"Família terapêutica","tipo":"Jogo Terapêutico","descricao":"Jogo terapêutico que utiliza personagens representando diferentes configurações familiares para favorecer a exploração da dinâmica familiar, da comunicação e das relações entre seus membros, auxiliando na identificação de dificuldades e no desenvolvimento de estratégias de intervenção.","faixaEtaria":"A partir de 4 anos","objetivo":"Parentalidade","habilidades":"Comunicação; Identificação de emoções; Expressão emocional; Reflexão; Resolução de problemas; Psicoeducação"},{"nome":"Baralho de Autismo - Avaliação e intervenção","tipo":"Baralho (grande)","descricao":"Baralho terapêutico desenvolvido para auxiliar na identificação de sinais do Transtorno do Espectro Autista (TEA), favorecendo a psicoeducação, a avaliação clínica e o planejamento de intervenções e encaminhamentos especializados.","faixaEtaria":"Crianças, adolescentes e adultos","objetivo":"Psicoeducação","habilidades":"Psicoeducação; Identificação de comportamentos; Observação clínica; Autoconhecimento; Comunicação"},{"nome":"Baralho psicoeducativo Perfeccionismo Infantil","tipo":"Baralho (grande)","descricao":"Baralho psicoeducativo com cartas ilustradas e atividades lúdicas que auxilia crianças e suas famílias a compreender, identificar e manejar pensamentos, emoções e comportamentos relacionados ao perfeccionismo.","faixaEtaria":"Crianças e pré-adolescentes","objetivo":"Psicoeducação; Perfeccionismo","habilidades":"Identificação de pensamentos; Identificação de emoções; Autoconhecimento; Reestruturação cognitiva; Estratégias de enfrentamento"},{"nome":"Meu primeiro box de atividades emoções","tipo":"Baralho (grande)","descricao":"Box de atividades inspirado no Método Montessori que utiliza cartões e materiais manipuláveis para auxiliar crianças em fase pré-escolar no reconhecimento, compreensão e expressão das emoções por meio de atividades lúdicas e autônomas.","faixaEtaria":"A partir de 3 anos","objetivo":"Identificação de emoções","habilidades":"Identificação de emoções; Expressão emocional; Vocabulário emocional; Autoconhecimento; Atenção; Percepção visual"},{"nome":"Palavra Proibida","tipo":"Jogo Terapêutico","descricao":"Jogo em que os participantes devem explicar uma palavra sem utilizar termos proibidos, estimulando estratégias de comunicação, ampliação do vocabulário e flexibilidade na expressão verbal.","faixaEtaria":"Crianças, adolescentes e adultos","objetivo":"Linguagem e comunicação","habilidades":"Linguagem expressiva; Linguagem receptiva; Vocabulário; Acesso lexical; Flexibilidade cognitiva; Planejamento; Comunicação; Inibição; Criatividade"},{"nome":"Copa da Linguagem","tipo":"Jogo Terapêutico","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Profiles - Jogo da personalidade","tipo":"Jogo Terapêutico","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Cards de Interferência","tipo":"Jogo Terapêutico","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Você está sempre com raiva?","tipo":"Livro","descricao":"Livro infantil que utiliza uma história e atividades para ensinar crianças a reconhecer e manejar a raiva, acompanhado de orientações práticas para que os pais auxiliem no desenvolvimento da regulação emocional.","faixaEtaria":"Crianças","objetivo":"Regulação emocional","habilidades":"Identificação de emoções; Regulação emocional; Expressão emocional; Estratégias de enfrentamento; Comunicação"},{"nome":"Vamos lidar com a hiperatividade e o déficit de atenção","tipo":"Livro","descricao":"Livro com 60 atividades lúdicas voltadas para crianças com TDAH, que auxilia na compreensão do transtorno e no desenvolvimento de estratégias para melhorar o foco, a organização e o manejo da ansiedade no dia a dia.","faixaEtaria":"Crianças","objetivo":"Psicoeducação","habilidades":"Autoconhecimento; Atenção; Organização; Autorregulação; Estratégias de enfrentamento; Regulação emocional"},{"nome":"Vamos lidar com ansiedade","tipo":"Livro","descricao":"Livro com 40 atividades baseadas em mindfulness, Terapia Cognitivo-Comportamental (TCC) e Terapia de Aceitação e Compromisso (ACT) para auxiliar crianças a compreender e manejar a ansiedade, desenvolver autoconfiança e lidar com preocupações de forma mais adaptativa.","faixaEtaria":"Crianças","objetivo":"Manejo da ansiedade","habilidades":"Regulação emocional; Estratégias de enfrentamento; Identificação de emoções; Flexibilidade cognitiva; Atenção plena; Autoconhecimento"},{"nome":"Vamos lidar com a raiva","tipo":"Livro","descricao":"Livro com 50 atividades lúdicas e interativas que auxiliam crianças a compreender, expressar e manejar a raiva, promovendo o reconhecimento de gatilhos, o desenvolvimento de estratégias de enfrentamento e a tomada de decisões mais adaptativas.","faixaEtaria":"Crianças","objetivo":"Regulação emocional","habilidades":"Identificação de emoções; Regulação emocional; Expressão emocional; Estratégias de enfrentamento; Autoconhecimento; Tomada de decisão"},{"nome":"Eu sinto tanto: O livro das emoções para pais e filhos","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Como lidar com TDAH","tipo":"Livro","descricao":"Guia prático para familiares, professores e jovens com transtorno de atenção e hiperatividade","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Como lidar com a ansiedade","tipo":"Livro","descricao":"Guia prático para pacientes familiares e educadores","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Como lidar com os transtornos alimentares","tipo":"Livro","descricao":"Guia prático para familiares e pacientes","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Como lidar com a enurese","tipo":"Livro","descricao":"Guia prático para pacientes, familiares e profissionais de saúde","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Alice no país do TDAH","tipo":"Livro","descricao":"Identificação e intervenção precoces","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Antônio e o medo do escuro","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"E se eu sentir… Gratidão","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"E se eu sentir… Timidez","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"E se eu sentir… Ansiedade","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"E se eu sentir… Amor","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"E se eu sentir… Saudade","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"E se eu sentir… Felicidade","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"E se eu sentir… Raiva","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Está tudo bem","tipo":"Livro","descricao":"Seja gentil com você mesmo quando as coisas não dão certo","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Cidade cérebro","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"O que fazer quando você não consegue dormir","tipo":"Livro","descricao":"Um guia para criança superarem problemas na hora do sono","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Pedro e o soninho fujão","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"O monstro do problema: ajudando as crianças a entender a psicoterapia","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"O menino que tinha quase tudo","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Atividades para o desenvolvimento da inteligência emocional nas crianças","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"O menino que tinha medo de errar","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"A mágica da respiração","tipo":"Livro","descricao":"Um livro para aprender a lidar com raiva, frustração, tristeza e todos os outros sentimentos","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Frida Kahlo - Gente pequena, grandes sonhos","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Marie Curie - Gente pequena, grandes sonhos","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Coco Chanel - Gente pequena, grandes sonhos","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Um dia muito mal-humorado","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Mãe fora da caixa","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Ted tem TOD","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Meu livro de atividade Mindfulness","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"O monstro das cores","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Uma mente diferente","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"O fio invisível","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"A caixa de preocupações","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Conheça seu cérebro","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"12 contos desenhados","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Tá tudo bem agora…","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Para Norberto, tá tudo certo","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Turma da Mônica - Desculpa","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Afoito em busca da paciência","tipo":"Livro","descricao":"A importância de aprender a esperar","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Trabalhando as emoções com Joana, a lontra","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Com que cara estou?","tipo":"Livro","descricao":"Falando sobre emoções","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Aqui me sinto…","tipo":"Livro","descricao":"Identificando as emoções nos ambientes","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Autocompaixão","tipo":"Livro","descricao":"O despertar de compassita em crianças de todas as idades","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"As chaves para controlar a raiva e resolver problemas","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Da cama compartilhada ao meu próprio quarto","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"O caminho das formigas","tipo":"Livro","descricao":"Vencendo a preguiça na infância","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Beto estourado","tipo":"Livro","descricao":"Enfrentando transtorno explosivo intermitente","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"O menino verde","tipo":"Livro","descricao":"Uma reflexão para pais sobre o uso de telas impactos no desenvolvimento infantil","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Onde está papai?","tipo":"Livro","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Perfil express: Harry Potter","tipo":"Jogo","descricao":"Jogo de dedução com 100 cartas contendo 10 dicas progressivas cada sobre personagens, lugares e curiosidades do universo Harry Potter, jogado entre duas pessoas ou duas equipes que tentam adivinhar o mais rápido possível para acumular pontos.","faixaEtaria":"A partir de 12 anos","objetivo":"Memória semântica","habilidades":"Inferência; Raciocínio lógico; Memória semântica; Atenção; Flexibilidade cognitiva; Resolução de problemas."},{"nome":"Perfil express: Disney","tipo":"Jogo","descricao":"Jogo de dedução com 100 cartas contendo 10 dicas progressivas cada sobre personagens e filmes Disney, jogado entre duas pessoas ou duas equipes.","faixaEtaria":"A partir de 7 anos","objetivo":"Memória semântica","habilidades":"Inferência; Raciocínio lógico; Memória semântica; Atenção; Flexibilidade cognitiva; Resolução de problemas."},{"nome":"Saboteur","tipo":"Jogo","descricao":"Jogo de cartas com papéis ocultos (mineradores x sabotadores), no qual os jogadores constroem ou bloqueiam caminhos até uma mina de ouro, blefando sobre suas verdadeiras intenções.","faixaEtaria":"A partir de 14 anos","objetivo":"Funções executivas","habilidades":"Planejamento; Raciocínio estratégico; Tomada de decisão; Teoria da mente; Controle inibitório."},{"nome":"Puzzle: dinossauros","tipo":"Jogo","descricao":"Quebra-cabeça de 100 peças com efeito lenticular/3D e ilustrações de dinossauros, no qual o participante monta a imagem completa a partir da análise de formas, cores e encaixes.","faixaEtaria":"A partir de 6 anos","objetivo":"Percepção visuoespacial","habilidades":"Percepção visuoespacial; Coordenação motora fina; Atenção sustentada; Planejamento; Resolução de problemas."},{"nome":"Troca Letras","tipo":"Jogo","descricao":"Jogo de tabuleiro no qual os jogadores revelam cartas com palavras embaralhadas e devem decifrá-las rapidamente dentro de uma das cinco categorias disponíveis, posicionando fichas no tabuleiro conforme acertam.","faixaEtaria":"A partir de 10 anos","objetivo":"Linguagem","habilidades":"Consciência fonológica; Vocabulário; Velocidade de processamento; Flexibilidade cognitiva; Atenção."},{"nome":"Uno: Lightyear","tipo":"Jogo","descricao":"Versão temática Disney/Pixar Lightyear do clássico jogo de cartas Uno, com regra especial de \"hipervelocidade\", no qual os jogadores combinam cores e números para se desfazer de todas as cartas primeiro","faixaEtaria":"A partir de 7 anos","objetivo":"Funções executivas","habilidades":"Atenção; Discriminação visual; Controle inibitório; Planejamento; Tomada de decisão."},{"nome":"Super Trunfo: futebol","tipo":"Jogo","descricao":"Jogo de 32 cartas com dados estatísticos de seleções de futebol, no qual os participantes comparam características para vencer rodadas e conquistar as cartas do adversário.","faixaEtaria":"A partir de 7 anos","objetivo":"Raciocínio lógico-matemático","habilidades":"Comparação numérica; Atenção; Memória semântica; Tomada de decisão."},{"nome":"Super Trunfo: dinossauro","tipo":"Jogo","descricao":"Jogo de 32 cartas com dados e características de diferentes espécies de dinossauros, no qual os participantes comparam valores para vencer rodadas.","faixaEtaria":"A partir de 7 anos","objetivo":"Raciocínio lógico-matemático","habilidades":"Comparação numérica; Atenção; Memória semântica; Tomada de decisão."},{"nome":"Jogo da memória: Moana 2","tipo":"Jogo","descricao":"Jogo da memória com 24 pares ilustrados dos personagens de Moana 2.","faixaEtaria":"A partir de 4 anos","objetivo":"Memória","habilidades":"Memória visual; Atenção sustentada; Concentração; Raciocínio estratégico."},{"nome":"Cortex challenge","tipo":"Jogo","descricao":"Jogo de cartas-desafio de diferentes categorias (memória, tato, raciocínio lógico, coordenação), no qual os participantes competem para resolver os desafios mais rapidamente e conquistar peças de cérebro.","faixaEtaria":"A partir de 8 anos","objetivo":"Estimulação cognitiva","habilidades":"Memória de trabalho; Atenção; Velocidade de processamento; Percepção tátil; Raciocínio lógico; Coordenação motora."},{"nome":"Pizzaria Maluca","tipo":"Jogo","descricao":"Jogo de tabuleiro no qual os participantes devem planejar e montar uma pizza reunindo os ingredientes corretos, enfrentando cartas de sorte e azar pelo caminho.","faixaEtaria":"A partir de 6 anos","objetivo":"Planejamento e funções executivas","habilidades":"Planejamento; Atenção seletiva; Flexibilidade cognitiva; Tomada de decisão; Memória de trabalho."},{"nome":"Fazendo Mímicas","tipo":"Jogo","descricao":"Jogo de cartas em que os participantes usam uma cinta na cabeça para exibir a carta aos demais, que fazem mímica (gestos, sem falar) para que o jogador adivinhe a palavra marcada pelo tempo da ampulheta.","faixaEtaria":"A partir de 6 anos","objetivo":"Comunicação não-verbal","habilidades":"Expressão corporal; Criatividade; Planejamento; Linguagem expressiva e compreensiva; Teoria da mente."},{"nome":"ETDA - Estimulação para transtornos e dificuldades de aprendizagem","tipo":"Baralho","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Baralho das Habilidades Socioemocionais","tipo":"Baralho","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Pontinho de Vista","tipo":"Jogo Terapêutico","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Baralho ABCDE - Estratégias de educação parental","tipo":"Baralho","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Baralho de Histórias","tipo":"Baralho","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Bota Fora","tipo":"Jogo Terapêutico","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Expertio pocket","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Color Addict","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Conversinha","tipo":"Baralho","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Criaventura","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Block Game","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Túnel do Tempo","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Hora do Hush","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Fato ou Fake: Harry Potter","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Jenga","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Puzzle: Princesas da Disney","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Tapple","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Pega Pompom: Pixar","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Jogo magnético: Minha Rotina","tipo":"","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Minha Rotina: Estrelinhas","tipo":"","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Senha","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Logical Road Builder","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Labirinto magnético","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Que Emoção!","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Colheita Divertida","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Trim Trim: Avengers","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"A casa mágica da Gabby","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Baby shark's big show: quebra-cabeça","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Super Trilha: Divertidamente 2","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"My Princess Girl: miçangas pulseiras","tipo":"","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Pictureka!","tipo":"","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Tapete de pintar (lavável)","tipo":"","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Aventuras pelo Espaço: uma viagem para o desenvolvimento emocional","tipo":"Jogo Terapêutico","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Tapa Certo: Vira monstro, vira herói","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Nexo","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Pulo do Pirata","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Batalhas sobre Teias!","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Cara a cara: Avengers","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Hamburgueria Maluca","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Cai não cai","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Memory Chess","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Minhas vogais: jogo de encaixe","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Meus números: jogo de encaixe","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Cadê o bicho?","tipo":"Jogo","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""},{"nome":"Pequeno construtor","tipo":"","descricao":"","faixaEtaria":"","objetivo":"","habilidades":""}];
+
+const HEADER_MAP = {
+  'nome do recurso':'nome',
+  'nome':'nome',
+  'tipo de recurso':'tipo',
+  'tipo':'tipo',
+  'descricao':'descricao',
+  'descrição':'descricao',
+  'faixa etaria':'faixaEtaria',
+  'faixa etária':'faixaEtaria',
+  'objetivo terapeutico':'objetivo',
+  'objetivo terapêutico':'objetivo',
+  'objetivo':'objetivo',
+  'habilidades trabalhadas':'habilidades',
+  'habilidades':'habilidades',
+};
+function stripAccents(s){ return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
+function canonHeader(h){ return stripAccents(String(h||'').trim().toLowerCase()); }
+
+let importState = { rows: [], stagedNew: [], stagedDup: [], fileName: '' };
+
+function renderImportar(){
+  const total = state.recursos.length;
+  return `
+    <div class="view-head compact">
+      <h2>Importar / Exportar</h2>
+      <p>Importe em massa ou exporte o catálogo para planilha.</p>
+    </div>
+
+    <!-- IMPORTAR -->
+    <div class="section-title">Importar planilha</div>
+
+    <div class="dropzone" id="dropzone-area">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3v12m0 0l-4-4m4 4l4-4"/><path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/>
+      </svg>
+      <strong>Toque para escolher um arquivo</strong>
+      <span>XLSX, XLS ou CSV</span>
+      <input type="file" id="import-file" accept=".xlsx,.xls,.csv" style="position:absolute;opacity:0;width:0;height:0;pointer-events:none;">
+    </div>
+
+    <p style="font-size:12px;color:var(--text-faint);margin:-4px 0 14px;line-height:1.6;">
+      Colunas esperadas: <b>Nome do recurso</b>, Tipo de recurso, Descrição, Faixa etária, Objetivo terapêutico, Habilidades trabalhadas (separadas por ponto e vírgula). Outras colunas são ignoradas.
+    </p>
+
+    <button class="btn btn-ghost btn-block" id="btn-use-seed" style="margin-bottom:4px;">
+      📚 Usar catálogo inicial do Espaço Luneta (163 itens)
+    </button>
+
+    <div id="import-preview"></div>
+
+    <!-- EXPORTAR -->
+    <div class="section-title" style="margin-top:24px;">Exportar catálogo</div>
+    <div class="card" style="padding:16px;">
+      <p style="font-size:13px;color:var(--text-soft);margin:0 0 14px;line-height:1.5;">
+        Baixe todos os ${total} recurso(s) cadastrados em uma planilha XLSX — pronta para editar e reimportar depois.
+      </p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn btn-primary" id="btn-export-xlsx" ${total===0?'disabled style="opacity:.5;"':''}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Exportar XLSX
+        </button>
+        <button class="btn btn-ghost" id="btn-export-csv" ${total===0?'disabled style="opacity:.5;"':''}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Exportar CSV
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function bindImportarEvents(){
+  // Dropzone: click abre o seletor de arquivo
+  const dropzone = document.getElementById('dropzone-area');
+  const fileInput = document.getElementById('import-file');
+  dropzone.addEventListener('click', ()=>fileInput.click());
+  // Drag and drop
+  dropzone.addEventListener('dragover', e=>{ e.preventDefault(); dropzone.style.background='var(--bg)'; dropzone.style.borderColor='var(--navy)'; });
+  dropzone.addEventListener('dragleave', ()=>{ dropzone.style.background=''; dropzone.style.borderColor=''; });
+  dropzone.addEventListener('drop', e=>{
+    e.preventDefault();
+    dropzone.style.background=''; dropzone.style.borderColor='';
+    const file = e.dataTransfer.files[0];
+    if(file) processFile(file);
+  });
+  fileInput.addEventListener('change', e=>{
+    const file = e.target.files[0];
+    if(file) processFile(file);
+  });
+  document.getElementById('btn-use-seed').addEventListener('click', ()=>{
+    importState.fileName = 'Catálogo inicial Espaço Luneta';
+    stageRows(SEED_RECURSOS.map(r=>({...r})));
+  });
+
+  // Exportar
+  const exportXlsxBtn = document.getElementById('btn-export-xlsx');
+  if(exportXlsxBtn) exportXlsxBtn.addEventListener('click', ()=>exportRecursos('xlsx'));
+  const exportCsvBtn = document.getElementById('btn-export-csv');
+  if(exportCsvBtn) exportCsvBtn.addEventListener('click', ()=>exportRecursos('csv'));
+}
+
+function processFile(file){
+  importState.fileName = file.name;
+  const reader = new FileReader();
+  reader.onload = evt=>{
+    try{
+      const wb = XLSX.read(evt.target.result, {type:'array'});
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const raw = XLSX.utils.sheet_to_json(ws, {defval:''});
+      const mapped = mapRawRows(raw);
+      if(!mapped.length){ toast('Nenhum item válido encontrado. Verifique se a planilha tem a coluna "Nome do recurso".', 'err'); return; }
+      stageRows(mapped);
+    }catch(err){
+      console.error(err);
+      toast('Não consegui ler esse arquivo. Confira o formato (XLSX, XLS ou CSV).', 'err');
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+/* ─── Exportação ─────────────────────────────────────────────────────────── */
+const EXPORT_COLS = [
+  { key:'nome',        label:'Nome do recurso' },
+  { key:'tipo',        label:'Tipo de recurso' },
+  { key:'descricao',   label:'Descrição' },
+  { key:'faixaEtaria', label:'Faixa etária' },
+  { key:'objetivo',    label:'Objetivo terapêutico' },
+  { key:'habilidades', label:'Habilidades trabalhadas' },
+];
+
+function exportRecursos(format){
+  if(!state.recursos.length){ toast('Nenhum recurso cadastrado para exportar.', 'err'); return; }
+
+  const rows = state.recursos.map(r=>
+    EXPORT_COLS.reduce((acc,c)=>{ acc[c.label] = r[c.key]||''; return acc; }, {})
+  );
+
+  const now = new Date();
+  const stamp = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  const fileName = `espaco-luneta-catalogo-${stamp}`;
+
+  if(format==='xlsx'){
+    const ws = XLSX.utils.json_to_sheet(rows, { header: EXPORT_COLS.map(c=>c.label) });
+    // Larguras de coluna
+    ws['!cols'] = [22,16,50,18,40,50].map(w=>({wch:w}));
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Catálogo');
+    XLSX.writeFile(wb, `${fileName}.xlsx`);
+    toast(`${state.recursos.length} recursos exportados para ${fileName}.xlsx`, 'ok');
+  } else {
+    // CSV com BOM para Excel reconhecer UTF-8
+    const headers = EXPORT_COLS.map(c=>c.label).join(';');
+    const csvRows = rows.map(r=>
+      EXPORT_COLS.map(c=>{ const v = String(r[c.label]||'').replace(/"/g,'""'); return `"${v}"`; }).join(';')
+    );
+    const csv = '\uFEFF' + headers + '\n' + csvRows.join('\n');
+    const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `${fileName}.csv`; a.click();
+    URL.revokeObjectURL(url);
+    toast(`${state.recursos.length} recursos exportados para ${fileName}.csv`, 'ok');
+  }
+}
+
+function mapRawRows(raw){
+  return raw.map(rowObj=>{
+    const out = {nome:'',tipo:'',descricao:'',faixaEtaria:'',objetivo:'',habilidades:''};
+    Object.keys(rowObj).forEach(k=>{
+      const canon = HEADER_MAP[canonHeader(k)];
+      if(canon) out[canon] = String(rowObj[k]||'').trim();
+    });
+    return out;
+  }).filter(r=>r.nome);
+}
+
+function stageRows(mapped){
+  const existingByName = new Map();
+  state.recursos.forEach(r=> existingByName.set(normName(r.nome), r));
+
+  const stagedNew = [];
+  const stagedDup = [];
+  mapped.forEach(row=>{
+    const match = existingByName.get(normName(row.nome));
+    if(match) stagedDup.push({incoming: row, existing: match});
+    else stagedNew.push(row);
+  });
+  importState.rows = mapped;
+  importState.stagedNew = stagedNew;
+  importState.stagedDup = stagedDup;
+  renderImportPreview();
+}
+
+function renderImportPreview(){
+  const el = document.getElementById('import-preview');
+  if(!el) return;
+  const { rows, stagedNew, stagedDup, fileName } = importState;
+  if(!rows.length){ el.innerHTML=''; return; }
+  el.innerHTML = `
+    <div class="card import-summary">
+      <div class="row"><span>Arquivo</span><b>${esc(fileName)}</b></div>
+      <div class="row"><span>Linhas lidas</span><b>${rows.length}</b></div>
+      <div class="row"><span>Itens novos</span><b style="color:#3E8E6B">${stagedNew.length}</b></div>
+      <div class="row"><span>Nomes já cadastrados</span><b style="color:var(--orange)">${stagedDup.length}</b></div>
+    </div>
+    <div class="card" style="padding:6px 14px;">
+      <div class="import-list">
+        ${rows.slice(0,80).map(r=>{
+          const isDup = stagedDup.some(d=>normName(d.incoming.nome)===normName(r.nome));
+          return `<div class="import-row"><span>${esc(r.nome)}</span><span class="status ${isDup?'status-dup':'status-new'}">${isDup?'Já existe':'Novo'}</span></div>`;
+        }).join('')}
+        ${rows.length>80 ? `<div class="import-row"><span style="color:var(--text-faint);">+ ${rows.length-80} item(ns)…</span></div>` : ''}
+      </div>
+    </div>
+    <button class="btn btn-primary btn-block" id="btn-start-import" style="margin-top:14px;">Iniciar importação</button>
+  `;
+  document.getElementById('btn-start-import').addEventListener('click', startImport);
+}
+
+async function startImport(){
+  const btn = document.getElementById('btn-start-import');
+  btn.disabled = true; btn.textContent = 'Importando…';
+  const userName = localStorage.getItem(LS_KEYS.name)||'';
+  let added=0, replaced=0, skipped=0, addedAsNew=0;
+
+  // 1) itens sem conflito de nome — grava em lote
+  for(const row of importState.stagedNew){
+    try{
+      await state.api.add({
+        ...row,
+        criadoEm: state.api.timestamp(),
+        criadoPor: userName,
+      });
+      added++;
+    }catch(e){ console.error(e); }
+  }
+
+  // 2) duplicados — decide um por um
+  for(const dup of importState.stagedDup){
+    const decision = await resolveDuplicateModal(dup.existing, dup.incoming);
+    if(decision==='skip'){ skipped++; continue; }
+    if(decision==='replace'){
+      try{
+        await state.api.update(dup.existing.id, {
+          tipo: dup.incoming.tipo, descricao: dup.incoming.descricao,
+          faixaEtaria: dup.incoming.faixaEtaria, objetivo: dup.incoming.objetivo,
+          habilidades: dup.incoming.habilidades,
+          atualizadoEm: state.api.timestamp(),
+          atualizadoPor: userName,
+        });
+        replaced++;
+      }catch(e){ console.error(e); }
+      continue;
+    }
+    if(decision==='addnew'){
+      try{
+        await state.api.add({
+          ...dup.incoming,
+          criadoEm: state.api.timestamp(),
+          criadoPor: userName,
+        });
+        addedAsNew++;
+      }catch(e){ console.error(e); }
+    }
+  }
+
+  toast(`Importação concluída: ${added+addedAsNew} adicionados, ${replaced} substituídos, ${skipped} ignorados.`, 'ok');
+  importState = { rows: [], stagedNew: [], stagedDup: [], fileName: '' };
+  setView('catalogo');
+}
+
+function resolveDuplicateModal(existing, incoming){
+  return new Promise(resolve=>{
+    const root = document.getElementById('modal-root');
+    const wrap = document.createElement('div');
+    wrap.className = 'modal-overlay';
+    wrap.innerHTML = `
+      <div class="modal-sheet">
+        <div class="modal-head">
+          <h3>Nome já cadastrado</h3>
+        </div>
+        <p style="font-size:13px;color:var(--text-soft);margin:-8px 0 16px;">"${esc(incoming.nome)}" já existe no catálogo. Compare as informações e escolha o que fazer.</p>
+        <div class="dup-compare">
+          <div class="dup-col existing">
+            <div class="dup-col-label">Já cadastrado</div>
+            ${dupFieldsHTML(existing)}
+          </div>
+          <div class="dup-col incoming">
+            <div class="dup-col-label">Na planilha agora</div>
+            ${dupFieldsHTML(incoming)}
+          </div>
+        </div>
+        <div class="dup-actions">
+          <button class="btn btn-soft btn-block" id="dup-skip">Não substituir (manter o já cadastrado)</button>
+          <button class="btn btn-primary btn-block" id="dup-replace">Substituir recurso existente</button>
+          <button class="btn btn-ghost btn-block" id="dup-addnew">Adicionar como novo recurso (manter os dois)</button>
+        </div>
+      </div>
+    `;
+    root.appendChild(wrap);
+    wrap.querySelector('#dup-skip').addEventListener('click', ()=>{ wrap.remove(); resolve('skip'); });
+    wrap.querySelector('#dup-replace').addEventListener('click', ()=>{ wrap.remove(); resolve('replace'); });
+    wrap.querySelector('#dup-addnew').addEventListener('click', ()=>{ wrap.remove(); resolve('addnew'); });
+  });
+}
+function dupFieldsHTML(r){
+  return `
+    <div class="dup-field"><b>Tipo</b>${esc(r.tipo)||'—'}</div>
+    <div class="dup-field"><b>Descrição</b>${esc(r.descricao)||'—'}</div>
+    <div class="dup-field"><b>Faixa etária</b>${esc(r.faixaEtaria)||'—'}</div>
+    <div class="dup-field"><b>Objetivo</b>${esc(r.objetivo)||'—'}</div>
+    <div class="dup-field"><b>Habilidades</b>${esc(r.habilidades)||'—'}</div>
+  `;
+}
+
+/* boot */
+boot();
+
+// Registrar Service Worker para PWA
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+  });
+}
+</script>
+</body>
+</html>
+</body>
+</html>
