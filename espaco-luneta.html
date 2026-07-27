@@ -324,7 +324,6 @@ a{color:inherit;}
 .skill-check:hover{border-color:var(--navy-light);}
 .skill-check:active{transform:scale(.95);}
 .skill-check.checked{background:var(--navy);border-color:var(--navy);color:#fff;}
-.skill-check.incompativel{opacity:.35;cursor:not-allowed;}
 .empty-hint{font-size:11.5px;color:var(--text-faint);font-style:italic;}
 
 .active-tag{
@@ -990,47 +989,14 @@ function getAllObjetivos(){
   return [...set].sort((a,b)=>a.localeCompare(b,'pt-BR'));
 }
 
-/* Retorna os recursos que passam por TODOS os filtros EXCETO o do próprio campo (excludeKey).
-   Isso serve para calcular as opções compatíveis em cascata. */
-function recursosCompativeisComFiltros(excludeKey){
-  const c = state.catalogo;
-  const q = normName(c.search);
-  return state.recursos.filter(r=>{
-    if(c.onlyIncomplete && !isIncomplete(r)) return false;
-    for(const key of Object.keys(FILTER_DEFS)){
-      if(key === excludeKey) continue;
-      if(!matchesFilter(key, r)) return false;
-    }
-    if(q){
-      const hay = normName([r.nome, r.descricao, r.objetivo, r.tipo, r.faixaEtaria, r.habilidades].filter(Boolean).join(' '));
-      if(!hay.includes(q)) return false;
-    }
-    return true;
-  });
-}
-
-/* Opções de um filtro = valores que existem nos recursos compatíveis com os outros filtros.
-   Opções já selecionadas sempre aparecem (para poder desmarcar). */
-function getOptionsForKey(key){
-  const def = FILTER_DEFS[key];
-  const f = state.catalogo.filters[key];
-  const compatíveis = recursosCompativeisComFiltros(key);
-  const set = new Set();
-  compatíveis.forEach(r => def.itemValues(r).forEach(v => { if(v) set.add(v); }));
-  // Garante que selecionados apareçam mesmo que não haja compatíveis
-  f.selected.forEach(v => set.add(v));
-  return [...set].sort((a,b)=>a.localeCompare(b,'pt-BR'));
-}
-
 /* Definição genérica dos 4 painéis de filtro do catálogo.
    'multi' = campo com múltiplos valores por item (separados por ';'), usa E/OU
-   'single' = campo com um valor único por item, múltiplas seleções sempre operam como OU
-   As opções são calculadas em cascata por getOptionsForKey(). */
+   'single' = campo com um valor único por item, múltiplas seleções sempre operam como OU */
 const FILTER_DEFS = {
-  tipo:        { label:'Tipo',              icon:'🏷️', kind:'single', itemValues:r=>[r.tipo||'Sem tipo'],          placeholder:'Buscar tipo…' },
-  faixa:       { label:'Faixa etária',      icon:'👤', kind:'single', itemValues:r=>[r.faixaEtaria||''],           placeholder:'Buscar faixa etária…' },
-  objetivo:    { label:'Objetivo terapêutico', icon:'🎯', kind:'multi', itemValues:r=>splitObjetivos(r.objetivo),  placeholder:'Buscar objetivo…' },
-  habilidades: { label:'Habilidades trabalhadas', icon:'✨', kind:'multi', itemValues:r=>splitSkills(r.habilidades), placeholder:'Buscar habilidade…' },
+  tipo:        { label:'Tipo',              icon:'🏷️', kind:'single', getOptions:getAllTipos,     itemValues:r=>[r.tipo||'Sem tipo'],   placeholder:'Buscar tipo…' },
+  faixa:       { label:'Faixa etária',      icon:'👤', kind:'single', getOptions:getAllFaixas,    itemValues:r=>[r.faixaEtaria||''],    placeholder:'Buscar faixa etária…' },
+  objetivo:    { label:'Objetivo terapêutico', icon:'🎯', kind:'multi', getOptions:getAllObjetivos, itemValues:r=>splitObjetivos(r.objetivo), placeholder:'Buscar objetivo…' },
+  habilidades: { label:'Habilidades trabalhadas', icon:'✨', kind:'multi', getOptions:getAllSkills, itemValues:r=>splitSkills(r.habilidades), placeholder:'Buscar habilidade…' },
 };
 
 function matchesFilter(key, r){
@@ -1074,7 +1040,7 @@ function renderFilterToggleBtn(key){
 function renderFilterPanel(key){
   const def = FILTER_DEFS[key];
   const f = state.catalogo.filters[key];
-  const options = getOptionsForKey(key);
+  const options = def.getOptions();
   const q = normName(f.search);
   const filtered = q ? options.filter(o=>normName(o).includes(q)) : options;
   return `
@@ -1089,10 +1055,9 @@ function renderFilterPanel(key){
             </div>` : ''}
         </div>
         <div class="filter-checklist">
-          ${filtered.length ? filtered.map(o=>{
-            const incompativel = !recursosCompativeisComFiltros(key).some(r=>FILTER_DEFS[key].itemValues(r).includes(o)) && !f.selected.has(o);
-            return `<button class="skill-check ${f.selected.has(o)?'checked':''} ${incompativel?'incompativel':''}" data-filter="${key}" data-value="${esc(o)}" ${incompativel?'disabled':''} title="${incompativel?'Sem itens compatíveis com os filtros atuais':''}">${esc(o)}</button>`;
-          }).join('') : `<span style="font-size:12px;color:var(--text-faint);">Nenhuma opção compatível.</span>`}
+          ${filtered.length ? filtered.map(o=>`
+            <button class="skill-check ${f.selected.has(o)?'checked':''}" data-filter="${key}" data-value="${esc(o)}">${esc(o)}</button>
+          `).join('') : `<span style="font-size:12px;color:var(--text-faint);">Nenhuma opção.</span>`}
         </div>
         ${f.selected.size ? `<button class="link-btn" data-clear="${key}">Limpar</button>` : ''}
       </div>
@@ -1197,18 +1162,11 @@ function catalogoClickHandler(e){
     const f = c.filters[key];
     const v = t.dataset.value;
     if(f.selected.has(v)) f.selected.delete(v); else f.selected.add(v);
-    // atualiza o botão clicado e o pill de contagem
+    // update apenas o botão clicado e o toggle pill; NÃO rebinda tudo
     t.classList.toggle('checked');
     updatePillFor(key);
     ensureClearBtn(key);
-    // atualiza os resultados
     updateResultsOnly();
-    // atualiza checklists dos OUTROS painéis abertos (cascata)
-    Object.keys(c.filters).forEach(otherKey=>{
-      if(otherKey !== key && c.filters[otherKey].open){
-        refreshChecklistFor(otherKey);
-      }
-    });
     return;
   }
   if(t.dataset.modeFor){
@@ -1282,16 +1240,12 @@ function refreshChecklistFor(key){
   if(!list) return;
   const def = FILTER_DEFS[key];
   const f = state.catalogo.filters[key];
-  const options = getOptionsForKey(key);
+  const options = def.getOptions();
   const q = normName(f.search);
   const filtered = q ? options.filter(o=>normName(o).includes(q)) : options;
-  const compativeisSet = new Set(
-    recursosCompativeisComFiltros(key).flatMap(r=>def.itemValues(r))
-  );
-  list.innerHTML = filtered.length ? filtered.map(o=>{
-    const incompativel = !compativeisSet.has(o) && !f.selected.has(o);
-    return `<button class="skill-check ${f.selected.has(o)?'checked':''} ${incompativel?'incompativel':''}" data-filter="${key}" data-value="${esc(o)}" ${incompativel?'disabled':''} title="${incompativel?'Sem itens compatíveis com os filtros atuais':''}">${esc(o)}</button>`;
-  }).join('') : `<span style="font-size:12px;color:var(--text-faint);">Nenhuma opção compatível.</span>`;
+  list.innerHTML = filtered.length ? filtered.map(o=>`
+    <button class="skill-check ${f.selected.has(o)?'checked':''}" data-filter="${key}" data-value="${esc(o)}">${esc(o)}</button>
+  `).join('') : `<span style="font-size:12px;color:var(--text-faint);">Nenhuma opção.</span>`;
 }
 
 function updateResultsOnly(){
