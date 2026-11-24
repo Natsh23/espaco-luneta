@@ -462,6 +462,12 @@ a{color:inherit;}
 .dup-field{margin-bottom:6px;font-size:12px;line-height:1.4;}
 .dup-field b{display:block;font-size:9.5px;color:var(--text-faint);font-weight:600;text-transform:uppercase;letter-spacing:.03em;margin-bottom:1px;}
 .dup-actions{display:flex;flex-direction:column;gap:7px;}
+.dup-counter{display:inline-block;font-size:11px;font-weight:700;color:var(--navy);background:var(--bg);border-radius:999px;padding:3px 10px;margin-bottom:10px;}
+.dup-scope{display:flex;flex-direction:column;gap:6px;margin:0 0 12px;padding:10px 12px;border-radius:var(--radius);background:var(--bg);}
+.dup-scope > span{font-size:11px;font-weight:600;color:var(--text-soft);}
+.dup-scope .mode-switch{flex-wrap:wrap;}
+.dup-scope .mode-btn{font-size:12px;padding:7px 12px;}
+.dup-keep{color:var(--text-faint);font-style:italic;}
 
 .toast-wrap{position:fixed;top:14px;left:0;right:0;z-index:200;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;padding:0 12px;}
 .toast{
@@ -526,7 +532,7 @@ a{color:inherit;}
     <p class="gate-sub">Catálogo de jogos, livros e recursos terapêuticos.<br>Como podemos te chamar?</p>
     <div class="field">
       <label>Seu nome</label>
-      <input type="text" id="user-name-input" placeholder="Ex: Rejane">
+      <input type="text" id="user-name-input" placeholder="Ex: Priscila">
     </div>
     <button class="btn btn-primary btn-block" id="btn-save-name">Entrar</button>
     <p class="gate-foot">Usado apenas para identificar quem cadastrou ou editou cada item.</p>
@@ -619,14 +625,14 @@ const state = {
     onlyIncomplete: false,
     filters: {
       tipo:        { selected: new Set(), search: '', open: false },
-      faixa:       { selected: new Set(), search: '', open: false },
+      publico:     { selected: new Set(), search: '', open: false, mode: 'ou' },
       objetivo:    { selected: new Set(), search: '', open: false, mode: 'ou' },
-      habilidades: { selected: new Set(), search: '', open: false, mode: 'ou' },
     },
   },
   editingId: null,
   formSkills: [],
   formObjetivos: [],
+  formPublico: [],
   importStaged: [],        // itens prontos pra importar após checagem de duplicidade
   importDupQueue: [],
 };
@@ -650,6 +656,32 @@ function esc(s){
 }
 function normName(s){ return (s||'').trim().toLowerCase().replace(/\s+/g,' '); }
 function splitSkills(s){ return (s||'').split(';').map(x=>x.trim()).filter(Boolean); }
+
+/* PÚBLICO-ALVO
+   Fica guardado no campo "faixaEtaria" (nome mantido para não quebrar os dados já salvos no Firebase).
+   Vários públicos no mesmo item são separados por ';'  →  "Criança; Adolescente; Adulto".
+   Cada público vira uma opção própria no filtro. Maiúsculas/acentos não criam opções duplicadas
+   ("criança" e "Criança" contam como o mesmo público; exibe a grafia mais usada). */
+function splitPublico(s){ return (s||'').split(';').map(x=>x.trim()).filter(Boolean); }
+function publicoKey(v){ return stripAccents(normName(v)); }
+let _publicoCanon = { src: null, map: {} };
+function publicoCanonMap(){
+  if(_publicoCanon.src === state.recursos) return _publicoCanon.map;
+  const counts = {};
+  state.recursos.forEach(r=>splitPublico(r.faixaEtaria).forEach(v=>{
+    const k = publicoKey(v);
+    counts[k] = counts[k] || {};
+    counts[k][v] = (counts[k][v]||0) + 1;
+  }));
+  const map = {};
+  Object.keys(counts).forEach(k=>{ map[k] = Object.entries(counts[k]).sort((a,b)=>b[1]-a[1])[0][0]; });
+  _publicoCanon = { src: state.recursos, map };
+  return map;
+}
+function publicoValues(r){
+  const m = publicoCanonMap();
+  return [...new Set(splitPublico(r.faixaEtaria).map(v=>m[publicoKey(v)]||v))];
+}
 function isIncomplete(r){
   return !r.descricao || !r.faixaEtaria || !r.objetivo || !r.habilidades;
 }
@@ -858,10 +890,10 @@ function render(){
 function renderDashboard(){
   const total = state.recursos.length;
   const porTipo = {};
-  const porFaixa = {};
+  const porPublico = {};
   state.recursos.forEach(r=>{
     const t=r.tipo||'Sem tipo'; porTipo[t]=(porTipo[t]||0)+1;
-    if(r.faixaEtaria){ porFaixa[r.faixaEtaria]=(porFaixa[r.faixaEtaria]||0)+1; }
+    publicoValues(r).forEach(p=>{ porPublico[p]=(porPublico[p]||0)+1; });
   });
   const incompletos = state.recursos.filter(isIncomplete).length;
   const allSkills = new Set();
@@ -876,7 +908,7 @@ function renderDashboard(){
     .slice(0,6);
 
   const tipoCards = Object.entries(porTipo).sort((a,b)=>b[1]-a[1]);
-  const faixaCards = Object.entries(porFaixa).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  const publicoCards = Object.entries(porPublico).sort((a,b)=>b[1]-a[1]).slice(0,12);
   const nome = localStorage.getItem(LS_KEYS.name);
 
   return `
@@ -918,10 +950,10 @@ function renderDashboard(){
       ${tipoCards.map(([t,n])=>`<button class="chip" data-tipo="${esc(t)}" style="background:${tipoColorInline(t)};color:var(--navy-dark);border-color:transparent;">${esc(t)} <span class="count">${n}</span></button>`).join('')}
     </div>` : ''}
 
-    ${faixaCards.length ? `
-    <div class="section-title">Por faixa etária</div>
-    <div class="chip-row" id="dash-faixa-chips">
-      ${faixaCards.map(([f,n])=>`<button class="chip" data-faixa="${esc(f)}">${esc(f)} <span class="count">${n}</span></button>`).join('')}
+    ${publicoCards.length ? `
+    <div class="section-title">Por público-alvo</div>
+    <div class="chip-row" id="dash-publico-chips">
+      ${publicoCards.map(([f,n])=>`<button class="chip" data-publico="${esc(f)}">${esc(f)} <span class="count">${n}</span></button>`).join('')}
     </div>` : ''}
 
     ${recentes.length ? `
@@ -952,10 +984,10 @@ function bindDashboardEvents(){
       setView('catalogo');
     });
   });
-  document.querySelectorAll('#dash-faixa-chips [data-faixa]').forEach(btn=>{
+  document.querySelectorAll('#dash-publico-chips [data-publico]').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       Object.values(state.catalogo.filters).forEach(f=>{ f.selected = new Set(); });
-      state.catalogo.filters.faixa.selected = new Set([btn.dataset.faixa]);
+      state.catalogo.filters.publico.selected = new Set([btn.dataset.publico]);
       state.catalogo.onlyIncomplete = false;
       setView('catalogo');
     });
@@ -973,9 +1005,9 @@ function getAllSkills(){
   state.recursos.forEach(r=>splitSkills(r.habilidades).forEach(s=>set.add(s)));
   return [...set].sort((a,b)=>a.localeCompare(b,'pt-BR'));
 }
-function getAllFaixas(){
+function getAllPublicos(){
   const set = new Set();
-  state.recursos.forEach(r=>{ if(r.faixaEtaria) set.add(r.faixaEtaria); });
+  state.recursos.forEach(r=>publicoValues(r).forEach(p=>set.add(p)));
   return [...set].sort((a,b)=>a.localeCompare(b,'pt-BR'));
 }
 function getAllTipos(){
@@ -1022,15 +1054,14 @@ function getOptionsForKey(key){
   return [...set].sort((a,b)=>a.localeCompare(b,'pt-BR'));
 }
 
-/* Definição genérica dos 4 painéis de filtro do catálogo.
+/* Definição dos 3 painéis de filtro do catálogo: Tipo, Público-alvo e Objetivo terapêutico.
    'multi' = campo com múltiplos valores por item (separados por ';'), usa E/OU
    'single' = campo com um valor único por item, múltiplas seleções sempre operam como OU
    As opções são calculadas em cascata por getOptionsForKey(). */
 const FILTER_DEFS = {
   tipo:        { label:'Tipo',              icon:'🏷️', kind:'single', itemValues:r=>[r.tipo||'Sem tipo'],          placeholder:'Buscar tipo…' },
-  faixa:       { label:'Faixa etária',      icon:'👤', kind:'single', itemValues:r=>[r.faixaEtaria||''],           placeholder:'Buscar faixa etária…' },
+  publico:     { label:'Público-alvo',      icon:'👤', kind:'multi', itemValues:r=>publicoValues(r),              placeholder:'Buscar público…' },
   objetivo:    { label:'Objetivo terapêutico', icon:'🎯', kind:'multi', itemValues:r=>splitObjetivos(r.objetivo),  placeholder:'Buscar objetivo…' },
-  habilidades: { label:'Habilidades trabalhadas', icon:'✨', kind:'multi', itemValues:r=>splitSkills(r.habilidades), placeholder:'Buscar habilidade…' },
 };
 
 function matchesFilter(key, r){
@@ -1113,7 +1144,7 @@ function renderCatalogo(){
 
     <div class="search-wrap">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35" stroke-linecap="round"/></svg>
-      <input type="text" id="cat-search" placeholder="Buscar por nome, descrição, tipo, faixa, objetivo…" value="${esc(c.search)}">
+      <input type="text" id="cat-search" placeholder="Buscar por nome, descrição, tipo, público, objetivo…" value="${esc(c.search)}">
       ${c.search ? `<button class="search-clear" id="cat-search-clear" aria-label="Limpar">✕</button>` : ''}
     </div>
 
@@ -1151,7 +1182,7 @@ function resourceCardHTML(r){
       </div>
       ${r.descricao ? `<p class="desc">${esc(r.descricao)}</p>` : ''}
       <div class="meta-row">
-        ${r.faixaEtaria ? `<span class="meta-tag meta-faixa">👤 ${esc(r.faixaEtaria)}</span>` : ''}
+        ${publicoValues(r).map(p=>`<span class="meta-tag meta-faixa">👤 ${esc(p)}</span>`).join('')}
         ${shownObj.map(o=>`<span class="meta-tag meta-obj">🎯 ${esc(o)}</span>`).join('')}
         ${restObj>0?`<span class="meta-tag">+${restObj} obj.</span>`:''}
       </div>
@@ -1172,7 +1203,7 @@ function bindCatalogoEvents(){
 
 function catalogoClickHandler(e){
   const c = state.catalogo;
-  const t = e.target.closest('[data-toggle],[data-filter][data-value],[data-mode-for],[data-clear],#btn-reset-filters,#cat-search-clear,.res-card,[data-faixa],[data-tipo]');
+  const t = e.target.closest('[data-toggle],[data-filter][data-value],[data-mode-for],[data-clear],#btn-reset-filters,#cat-search-clear,.res-card');
   if(!t) return;
 
   if(t.id==='cat-search-clear'){
@@ -1294,7 +1325,17 @@ function refreshChecklistFor(key){
   }).join('') : `<span style="font-size:12px;color:var(--text-faint);">Nenhuma opção compatível.</span>`;
 }
 
+function syncResetBtn(){
+  const bar = document.querySelector('.filters-bar');
+  if(!bar) return;
+  const c = state.catalogo;
+  const any = Object.values(c.filters).some(f=>f.selected.size>0) || c.onlyIncomplete || c.search;
+  const btn = document.getElementById('btn-reset-filters');
+  if(any && !btn) bar.insertAdjacentHTML('beforeend', `<button class="filter-pill filter-reset" id="btn-reset-filters">Limpar tudo ✕</button>`);
+  else if(!any && btn) btn.remove();
+}
 function updateResultsOnly(){
+  syncResetBtn();
   const results = filteredRecursos();
   const p = document.querySelector('.view-head p');
   if(p) p.textContent = `${state.recursos.length} recurso(s) · ${results.length} exibido(s)`;
@@ -1313,11 +1354,13 @@ function resetForm(){
   state.editingId = null;
   state.formSkills = [];
   state.formObjetivos = [];
+  state.formPublico = [];
 }
 function loadFormFrom(r){
   state.editingId = r.id;
   state.formSkills = splitSkills(r.habilidades);
   state.formObjetivos = splitObjetivos(r.objetivo);
+  state.formPublico = publicoValues(r);
 }
 
 /* Campo com um único valor: input livre + lista clicável abaixo.
@@ -1335,7 +1378,7 @@ function renderPickerField(id, label, currentValue, options, placeholder){
 }
 
 /* Campo com múltiplos valores: chips fixos + input + lista clicável.
-   stateKey = 'formSkills' | 'formObjetivos'. */
+   stateKey = 'formSkills' | 'formObjetivos' | 'formPublico'. */
 function renderChipField(id, label, stateKey, options, placeholder, hint){
   const values = state[stateKey];
   return `
@@ -1356,7 +1399,7 @@ function renderChipField(id, label, stateKey, options, placeholder, hint){
 function renderCadastro(){
   const editing = state.editingId ? state.recursos.find(r=>r.id===state.editingId) : null;
   const tipoOptions = [...new Set([...TIPOS_PADRAO, ...getAllTipos()])].sort((a,b)=>a.localeCompare(b,'pt-BR'));
-  const faixaOptions = getAllFaixas();
+  const publicoOptions = getAllPublicos();
   const objetivoOptions = getAllObjetivos();
   const skillOptions = getAllSkills();
 
@@ -1379,7 +1422,9 @@ function renderCadastro(){
         <textarea id="f-descricao" placeholder="O que é o material e como funciona…">${esc(editing?.descricao||'')}</textarea>
       </div>
 
-      ${renderPickerField('f-faixa', 'Faixa etária', editing?.faixaEtaria||'', faixaOptions, 'Digite ou escolha abaixo…')}
+      ${renderChipField('f-pub-add', 'Público-alvo', 'formPublico', publicoOptions,
+        'Digite e pressione Enter, ou clique abaixo',
+        'Selecione um ou mais públicos (ex.: Criança, Adolescente, Adulto) ou digite um novo e pressione Enter.')}
 
       ${renderChipField('f-obj-add', 'Objetivo(s) terapêutico(s)', 'formObjetivos', objetivoOptions,
         'Digite e pressione Enter, ou clique abaixo',
@@ -1408,7 +1453,7 @@ function cadastroClickHandler(e){
   const t = e.target.closest('[data-pick-single],[data-pick-multi],[data-chip-remove],#btn-save-recurso,#btn-delete-recurso,#btn-cancel-edit');
   if(!t) return;
 
-  // seleção de valor único (tipo, faixa)
+  // seleção de valor único (tipo)
   if(t.dataset.pickSingle){
     const id = t.dataset.pickSingle;
     const input = document.getElementById(id);
@@ -1420,7 +1465,7 @@ function cadastroClickHandler(e){
     return;
   }
 
-  // seleção de valor múltiplo (objetivo, habilidade)
+  // seleção de valor múltiplo (público-alvo, objetivo, habilidade)
   if(t.dataset.pickMulti){
     const key = t.dataset.pickMulti;
     const v = t.dataset.value;
@@ -1487,6 +1532,8 @@ function cadastroKeydownHandler(e){
     } else {
       t.value='';
     }
+    // campo limpo → volta a mostrar todas as opções clicáveis
+    document.querySelectorAll(`[data-pick-multi="${key}"]`).forEach(btn=>{ btn.style.display=''; });
   }
 }
 
@@ -1515,11 +1562,13 @@ function saveRecursoFromForm(){
   if(pendSkill && !state.formSkills.some(s=>normName(s)===normName(pendSkill))) state.formSkills.push(pendSkill);
   const pendObj = document.getElementById('f-obj-add')?.value.trim();
   if(pendObj && !state.formObjetivos.some(s=>normName(s)===normName(pendObj))) state.formObjetivos.push(pendObj);
+  const pendPub = document.getElementById('f-pub-add')?.value.trim();
+  if(pendPub && !state.formPublico.some(s=>normName(s)===normName(pendPub))) state.formPublico.push(pendPub);
 
   const data = {
     nome, tipo,
     descricao: document.getElementById('f-descricao').value.trim(),
-    faixaEtaria: document.getElementById('f-faixa').value.trim(),
+    faixaEtaria: state.formPublico.join('; '),   // Público-alvo
     objetivo: state.formObjetivos.join('; '),
     habilidades: state.formSkills.join('; '),
     atualizadoEm: state.api.timestamp(),
@@ -1562,8 +1611,8 @@ function openDetailModal(id){
           <span>${esc(r.descricao) || 'Não preenchida'}</span>
         </div>
         <div class="detail-field ${!r.faixaEtaria?'empty':''}">
-          <b>Faixa etária</b>
-          <span>${esc(r.faixaEtaria) || 'Não preenchida'}</span>
+          <b>Público-alvo</b>
+          ${publicoValues(r).length ? `<div class="meta-row" style="margin-top:4px;">${publicoValues(r).map(p=>`<span class="meta-tag meta-faixa">👤 ${esc(p)}</span>`).join('')}</div>` : `<span>Não preenchido</span>`}
         </div>
         <div class="detail-field ${!r.objetivo?'empty':''}">
           <b>Objetivo${splitObjetivos(r.objetivo).length>1?'s':''} terapêutico${splitObjetivos(r.objetivo).length>1?'s':''}</b>
@@ -1676,8 +1725,10 @@ const HEADER_MAP = {
   'tipo':'tipo',
   'descricao':'descricao',
   'descrição':'descricao',
-  'faixa etaria':'faixaEtaria',
-  'faixa etária':'faixaEtaria',
+  'publico-alvo':'faixaEtaria',
+  'publico alvo':'faixaEtaria',
+  'publico':'faixaEtaria',
+  'faixa etaria':'_faixaLegada',   // planilhas antigas: usada só se não houver coluna Público-alvo
   'objetivo terapeutico':'objetivo',
   'objetivo terapêutico':'objetivo',
   'objetivo':'objetivo',
@@ -1710,7 +1761,7 @@ function renderImportar(){
     </div>
 
     <p style="font-size:12px;color:var(--text-faint);margin:-4px 0 14px;line-height:1.6;">
-      Colunas esperadas: <b>Nome do recurso</b>, Tipo de recurso, Descrição, Faixa etária, Objetivo terapêutico, Habilidades trabalhadas (separadas por ponto e vírgula). Outras colunas são ignoradas.
+      Colunas esperadas: <b>Nome do recurso</b>, Tipo de recurso, Descrição, <b>Público-alvo</b>, Objetivo terapêutico, Habilidades trabalhadas. Em Público-alvo, Objetivo e Habilidades, separe vários itens por <b>ponto e vírgula</b> (ex.: Criança; Adolescente; Adulto). Outras colunas são ignoradas.
     </p>
 
     <button class="btn btn-ghost btn-block" id="btn-use-seed" style="margin-bottom:4px;">
@@ -1793,7 +1844,7 @@ const EXPORT_COLS = [
   { key:'nome',        label:'Nome do recurso' },
   { key:'tipo',        label:'Tipo de recurso' },
   { key:'descricao',   label:'Descrição' },
-  { key:'faixaEtaria', label:'Faixa etária' },
+  { key:'faixaEtaria', label:'Público-alvo' },
   { key:'objetivo',    label:'Objetivo terapêutico' },
   { key:'habilidades', label:'Habilidades trabalhadas' },
 ];
@@ -1835,11 +1886,15 @@ function exportRecursos(format){
 
 function mapRawRows(raw){
   return raw.map(rowObj=>{
-    const out = {nome:'',tipo:'',descricao:'',faixaEtaria:'',objetivo:'',habilidades:''};
+    const out = {nome:'',tipo:'',descricao:'',faixaEtaria:'',objetivo:'',habilidades:'',_faixaLegada:''};
     Object.keys(rowObj).forEach(k=>{
       const canon = HEADER_MAP[canonHeader(k)];
-      if(canon) out[canon] = String(rowObj[k]||'').trim();
+      const val = String(rowObj[k]||'').trim();
+      if(canon && (val || !out[canon])) out[canon] = val;
     });
+    if(!out.faixaEtaria && out._faixaLegada) out.faixaEtaria = out._faixaLegada;
+    delete out._faixaLegada;
+    out.faixaEtaria = splitPublico(out.faixaEtaria).join('; ');
     return out;
   }).filter(r=>r.nome);
 }
@@ -1905,19 +1960,28 @@ async function startImport(){
     }catch(e){ console.error(e); }
   }
 
-  // 2) duplicados — decide um por um
-  for(const dup of importState.stagedDup){
-    const decision = await resolveDuplicateModal(dup.existing, dup.incoming);
+  // 2) duplicados — um a um, ou a mesma escolha para todos os restantes
+  const dups = importState.stagedDup;
+  let escolhaParaTodos = null;   // 'skip' | 'replace' | 'addnew' depois que o usuário escolhe "todos"
+  for(let i=0; i<dups.length; i++){
+    const dup = dups[i];
+    let decision = escolhaParaTodos;
+    if(!decision){
+      const res = await resolveDuplicateModal(dup.existing, dup.incoming, i+1, dups.length);
+      decision = res.decision;
+      if(res.applyAll) escolhaParaTodos = decision;
+    }
+    if(btn) btn.textContent = `Importando… ${i+1}/${dups.length}`;
     if(decision==='skip'){ skipped++; continue; }
     if(decision==='replace'){
+      // Substitui só o que veio preenchido na planilha.
+      // Célula vazia ou coluna ausente NÃO apaga o dado já cadastrado.
+      const upd = { atualizadoEm: state.api.timestamp(), atualizadoPor: userName };
+      ['tipo','descricao','faixaEtaria','objetivo','habilidades'].forEach(k=>{
+        if(dup.incoming[k]) upd[k] = dup.incoming[k];
+      });
       try{
-        await state.api.update(dup.existing.id, {
-          tipo: dup.incoming.tipo, descricao: dup.incoming.descricao,
-          faixaEtaria: dup.incoming.faixaEtaria, objetivo: dup.incoming.objetivo,
-          habilidades: dup.incoming.habilidades,
-          atualizadoEm: state.api.timestamp(),
-          atualizadoPor: userName,
-        });
+        await state.api.update(dup.existing.id, upd);
         replaced++;
       }catch(e){ console.error(e); }
       continue;
@@ -1939,8 +2003,15 @@ async function startImport(){
   setView('catalogo');
 }
 
-function resolveDuplicateModal(existing, incoming){
+/* Modal de nome repetido.
+   pos/total = posição deste repetido na fila (ex.: 3 de 12).
+   Retorna { decision: 'skip'|'replace'|'addnew', applyAll: true|false }.
+   applyAll=true → a mesma escolha vale para este e todos os repetidos restantes. */
+function resolveDuplicateModal(existing, incoming, pos, total){
+  pos = pos || 1; total = total || 1;
+  const restantes = total - pos;            // quantos vêm depois deste
   return new Promise(resolve=>{
+    let scope = 'one';
     const root = document.getElementById('modal-root');
     const wrap = document.createElement('div');
     wrap.className = 'modal-overlay';
@@ -1949,7 +2020,8 @@ function resolveDuplicateModal(existing, incoming){
         <div class="modal-head">
           <h3>Nome já cadastrado</h3>
         </div>
-        <p style="font-size:13px;color:var(--text-soft);margin:-8px 0 16px;">"${esc(incoming.nome)}" já existe no catálogo. Compare as informações e escolha o que fazer.</p>
+        ${total>1 ? `<span class="dup-counter">Repetido ${pos} de ${total}</span>` : ''}
+        <p style="font-size:13px;color:var(--text-soft);margin:0 0 16px;">"${esc(incoming.nome)}" já existe no catálogo. Compare as informações e escolha o que fazer.</p>
         <div class="dup-compare">
           <div class="dup-col existing">
             <div class="dup-col-label">Já cadastrado</div>
@@ -1957,29 +2029,50 @@ function resolveDuplicateModal(existing, incoming){
           </div>
           <div class="dup-col incoming">
             <div class="dup-col-label">Na planilha agora</div>
-            ${dupFieldsHTML(incoming)}
+            ${dupFieldsHTML(incoming, true)}
           </div>
         </div>
+        ${restantes>0 ? `
+        <div class="dup-scope">
+          <span>Aplicar a escolha a:</span>
+          <div class="mode-switch">
+            <button type="button" class="mode-btn active" data-scope="one">Só este</button>
+            <button type="button" class="mode-btn" data-scope="all">Todos os ${restantes+1} repetidos restantes</button>
+          </div>
+        </div>` : ''}
         <div class="dup-actions">
-          <button class="btn btn-soft btn-block" id="dup-skip">Não substituir (manter o já cadastrado)</button>
-          <button class="btn btn-primary btn-block" id="dup-replace">Substituir recurso existente</button>
-          <button class="btn btn-ghost btn-block" id="dup-addnew">Adicionar como novo recurso (manter os dois)</button>
+          <button class="btn btn-soft btn-block" id="dup-skip"></button>
+          <button class="btn btn-primary btn-block" id="dup-replace"></button>
+          <button class="btn btn-ghost btn-block" id="dup-addnew"></button>
         </div>
       </div>
     `;
     root.appendChild(wrap);
-    wrap.querySelector('#dup-skip').addEventListener('click', ()=>{ wrap.remove(); resolve('skip'); });
-    wrap.querySelector('#dup-replace').addEventListener('click', ()=>{ wrap.remove(); resolve('replace'); });
-    wrap.querySelector('#dup-addnew').addEventListener('click', ()=>{ wrap.remove(); resolve('addnew'); });
+    const n = restantes + 1;
+    function setLabels(){
+      const todos = scope==='all';
+      wrap.querySelector('#dup-skip').textContent    = todos ? `Manter todos os já cadastrados (${n})` : 'Manter o já cadastrado';
+      wrap.querySelector('#dup-replace').textContent = todos ? `Substituir todos (${n})`                : 'Substituir pelo da planilha';
+      wrap.querySelector('#dup-addnew').textContent  = todos ? `Duplicar todos (${n}) — manter os dois` : 'Duplicar — manter os dois';
+      wrap.querySelectorAll('[data-scope]').forEach(b=>b.classList.toggle('active', b.dataset.scope===scope));
+    }
+    setLabels();
+    wrap.querySelectorAll('[data-scope]').forEach(b=>b.addEventListener('click', ()=>{ scope = b.dataset.scope; setLabels(); }));
+    const done = decision => { wrap.remove(); resolve({ decision, applyAll: scope==='all' }); };
+    wrap.querySelector('#dup-skip').addEventListener('click', ()=>done('skip'));
+    wrap.querySelector('#dup-replace').addEventListener('click', ()=>done('replace'));
+    wrap.querySelector('#dup-addnew').addEventListener('click', ()=>done('addnew'));
   });
 }
-function dupFieldsHTML(r){
+function dupFieldsHTML(r, isIncoming){
+  // Na coluna da planilha, campo vazio = mantém o dado atual se substituir
+  const v = x => esc(x) || (isIncoming ? '<span class="dup-keep">vazio — mantém o atual</span>' : '—');
   return `
-    <div class="dup-field"><b>Tipo</b>${esc(r.tipo)||'—'}</div>
-    <div class="dup-field"><b>Descrição</b>${esc(r.descricao)||'—'}</div>
-    <div class="dup-field"><b>Faixa etária</b>${esc(r.faixaEtaria)||'—'}</div>
-    <div class="dup-field"><b>Objetivo</b>${esc(r.objetivo)||'—'}</div>
-    <div class="dup-field"><b>Habilidades</b>${esc(r.habilidades)||'—'}</div>
+    <div class="dup-field"><b>Tipo</b>${v(r.tipo)}</div>
+    <div class="dup-field"><b>Descrição</b>${v(r.descricao)}</div>
+    <div class="dup-field"><b>Público-alvo</b>${v(r.faixaEtaria)}</div>
+    <div class="dup-field"><b>Objetivo</b>${v(r.objetivo)}</div>
+    <div class="dup-field"><b>Habilidades</b>${v(r.habilidades)}</div>
   `;
 }
 
